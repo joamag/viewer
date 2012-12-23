@@ -40,6 +40,10 @@ jQuery(document).ready(function() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+    // registers the renderer for the resize of the window
+    // so that the ratios are maintained and the camera position
+    THREEx.WindowResize(renderer, camera);
+
     // creates a new geometry for the cube object and a new material
     // then creates the mesh with and adds them to the scene
     var geometry = new THREE.CubeGeometry(1, 1, 1);
@@ -55,6 +59,7 @@ jQuery(document).ready(function() {
 
     var render = function() {
         requestAnimationFrame(render);
+
         cube.rotation.x += 0.1;
         cube.rotation.y += 0.1;
         renderer.render(scene, camera);

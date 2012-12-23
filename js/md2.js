@@ -71,7 +71,8 @@ function convertMd2(file, filename, decimalPrecision) {
         return returnObject;
     }
 
-    // texture coordinates
+    // seeks the reader to the texture offset position
+    // and starts the reading of them
     reader.seek(header.offset_st);
     for (var i = 0; i < header.num_st; i++) {
         var s = reader.readInt16() / header.skinwidth;
@@ -142,7 +143,7 @@ function convertMd2(file, filename, decimalPrecision) {
         frames.push(frame);
     }
 
-    // Construct the string
+    // starts the construction of the string
     var str = "";
     // metadata
     str += "{\n\n\"metadata\" : {\n\"formatVersion\" : 3,\n\"description\"    : \"Md 2 model converted from "
