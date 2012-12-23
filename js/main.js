@@ -33,10 +33,15 @@ jQuery(document).ready(function() {
     // creates the webgl renderer object and starts it with
     // the size of the current window and appends the renderer
     // element to the document body
-    var renderer = new THREE.WebGLRenderer({clearColor : 0x000000, clearAlpha: 1.0});
+    var renderer = new THREE.WebGLRenderer({
+                clearColor : 0x000000,
+                clearAlpha : 1.0
+            });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+    // creates a new geometry for the cube object and a new material
+    // then creates the mesh with and adds them to the scene
     var geometry = new THREE.CubeGeometry(1, 1, 1);
     var material = new THREE.MeshBasicMaterial({
                 color : 0x00ff00
@@ -48,7 +53,7 @@ jQuery(document).ready(function() {
     // at some distance from the scene
     camera.position.z = 5;
 
-    function render() {
+    var render = function() {
         requestAnimationFrame(render);
         cube.rotation.x += 0.1;
         cube.rotation.y += 0.1;
