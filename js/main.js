@@ -86,7 +86,7 @@ jQuery(document).ready(function() {
         // retrieves the reference to the first file that is
         // going to be used as the model file to be laoded
         var file = event.dataTransfer.files[0];
-        
+
         // creates a new file reader object and register the
         // handler for the load event on it
         var reader = new FileReader();
@@ -123,10 +123,12 @@ jQuery(document).ready(function() {
             // start the loading of the model that was created
             var loader = new THREE.JSONLoader();
             loader.createModel(JSON.parse(model.string), function(geometry) {
-                        if (mesh) {
-                            scene.remove(mesh);
-                        }
-                        
+                        // in case there's a mesh loaded must remove it from
+                        // the scene not to be displayed anymore
+                        mesh && scene.remove(mesh);
+
+                        // in case the drop sprite is set must remove it from
+                        // the scene and delete the object
                         if (dropSprite) {
                             scene.remove(dropSprite);
                             delete dropSprite;
@@ -161,7 +163,7 @@ jQuery(document).ready(function() {
             reader.readAsBinaryString(file);
         }
     }
-    
+
     function onDocumentDragOver(event) {
         event.preventDefault();
     }
@@ -171,8 +173,8 @@ jQuery(document).ready(function() {
     }
 
     var render = function() {
-    	// requires the browser to repaint the area refered by the
-    	// render object (upad operation)
+        // requires the browser to repaint the area refered by the
+        // render object (upad operation)
         requestAnimationFrame(render);
 
         // retrieves the current frame rendering time (to be used
@@ -189,7 +191,7 @@ jQuery(document).ready(function() {
         // value (example rendering)
         cube.rotation.x += 0.1;
         cube.rotation.y += 0.1;
-        
+
         // schedules the render of the current scene using
         // the provided camera reference
         renderer.render(scene, camera);
