@@ -1,3 +1,5 @@
+var THREEx = THREEx || {};
+
 /**
  * Converts the provided md2 file into a json representation that may be used by
  * three.js.
@@ -11,7 +13,7 @@
  * @return {String} The string representation of the json model file resulting
  *         from the conversion of the md2 model.
  */
-function convertMd2(file, filename, decimalPrecision) {
+THREEx.convertMd2 = function(file, filename, decimalPrecision) {
     // default the decimal precision value to the default
     // one in case no parameter is provided
     decimalPrecision = decimalPrecision || 1;
