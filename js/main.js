@@ -119,6 +119,8 @@ jQuery(document).ready(function() {
                 return;
             }
 
+            // creates a new json (model) loader and uses it to
+            // start the loading of the model that was created
             var loader = new THREE.JSONLoader();
             loader.createModel(JSON.parse(model.string), function(geometry) {
                         if (mesh) {
