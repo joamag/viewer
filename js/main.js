@@ -83,39 +83,44 @@ jQuery(document).ready(function() {
         // redirections to the binary file)
         event.preventDefault();
 
-        // retrieves the 
+        // retrieves the reference to the first file that is
+        // going to be used as the model file to be laoded
         var file = event.dataTransfer.files[0];
+        
+        // creates a new file reader object and register the
+        // handler for the load event on it
         var reader = new FileReader();
-
         reader.onload = function(event) {
             if (mode == 1) {
                 loadImage(event.target.result);
                 return;
             }
 
-            var md2 = THREEx.convertMd2(event.target.result, filename);
+            // loads the md2 model file from the provided string that
+            // should contain the contents of its source file
+            var model = THREEx.loadMd2(event.target.result, filename);
 
-            var statusString = "<HR><B>Status:</B> " + md.info.status;
-            if (md.info.status == "Success") {
-                statusString += "<BR><B>Faces:</B> " + md.info.faces;
-                statusString += "<BR><B>Vertices:</B> " + md.info.vertices;
-                statusString += "<BR><B>Frames:</B> " + md.info.frames;
+            var statusString = "<HR><B>Status:</B> " + model.info.status;
+            if (model.info.status == "Success") {
+                statusString += "<BR><B>Faces:</B> " + model.info.faces;
+                statusString += "<BR><B>Vertices:</B> " + model.info.vertices;
+                statusString += "<BR><B>Frames:</B> " + model.info.frames;
                 statusString += "<BR><BR><form id='save'><B>Save file:</B><BR><input type='text' size='8' align='right' value='"
                         + filename
                         + "' id='filename'/>.js&nbsp;<input type='submit' onclick='saveFile()' value=' Save '/><BR></form><BR>(Chrome will download it,<BR>&nbsp;Firefox will open it in a new window.<BR>&nbsp;Then choose to 'Save As')<HR>";
             } else {
                 statusString = "<HR><B>Status:</B> <font color='#cc0000'>"
-                        + md.info.status + "</font><HR>";
+                        + model.info.status + "</font><HR>";
             }
             document.getElementById("status").innerHTML = statusString;
             document.getElementById("info").style.display = "block";
 
-            if (md.info.status != "Success") {
+            if (model.info.status != "Success") {
                 return;
             }
 
             var loader = new THREE.JSONLoader();
-            loader.createModel(JSON.parse(md.string), function(geometry) {
+            loader.createModel(JSON.parse(model.string), function(geometry) {
                         if (mesh) {
                             scene.remove(mesh);
                         }
@@ -135,7 +140,7 @@ jQuery(document).ready(function() {
                         mesh = new THREE.MorphAnimMesh(geometry, material);
                         mesh.rotation.y = -Math.PI / 2;
                         mesh.scale.set(5, 5, 5);
-                        mesh.duration = 1000 * (md.info.frames / 10);
+                        mesh.duration = 1000 * (model.info.frames / 10);
 
                         scene.add(mesh);
                     });

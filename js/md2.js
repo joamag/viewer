@@ -2,7 +2,8 @@ var THREEx = THREEx || {};
 
 /**
  * Converts the provided md2 file into a json representation that may be used by
- * three.js.
+ * three.js. This operation is considered a load operation as it loads the model
+ * from a source format into the current three.js specification format.
  *
  * @see http://tfc.duke.free.fr/coding/md2-specs-en.html
  *
@@ -13,7 +14,7 @@ var THREEx = THREEx || {};
  * @return {String} The string representation of the json model file resulting
  *         from the conversion of the md2 model.
  */
-THREEx.convertMd2 = function(file, filename, decimalPrecision) {
+THREEx.loadMd2 = function(file, filename, decimalPrecision) {
     // default the decimal precision value to the default
     // one in case no parameter is provided
     decimalPrecision = decimalPrecision || 1;
