@@ -18,10 +18,9 @@ THREEx.WindowResize = function(renderer, camera) {
         camera.updateProjectionMatrix();
     }
 
-    // binds the resize event
+    // binds the resize event and return the stop function that
+    // allows the stopping of the window resizing
     window.addEventListener("resize", callback, false);
-
-    // return .stop() the function to stop watching window resize
     return {
         stop : function() {
             window.removeEventListener("resize", callback);
