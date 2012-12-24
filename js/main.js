@@ -51,21 +51,138 @@ jQuery(document).ready(function() {
                 color : 0x00ff00
             });
     var cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    // scene.add(cube);
+
+    // creates the drop sprite value and add it to the current scene
+    // object (in order to be able to drop ip)
+    var dropSprite = new THREE.Sprite({
+                map : THREE.ImageUtils.loadTexture("images/drop_gfx.png"),
+                useScreenCoordinates : false
+            });
+    dropSprite.scale.set(0.5, 0.5, 0);
+    scene.add(dropSprite);
 
     // updates the camera position so that it positions itself
     // at some distance from the scene
-    camera.position.z = 5;
+    camera.position.z = 1.5;
+
+    var register = function() {
+        document.addEventListener("drop", onDocumentDrop, false);
+        document.addEventListener("dragover", onDocumentDragOver, false);
+        document.addEventListener("dragleave", onDocumentLeave, false);
+        /*
+         * document.addEventListener("mousemove", onDocumentMouseMove, false);
+         * document.addEventListener("mousewheel", onDocumentMouseWheel, false);
+         * document.addEventListener("DOMMouseScroll", onDocumentMouseWheel,
+         * false);
+         */
+    };
+
+    var onDocumentDrop = function(event) {
+        // presents the default event (avoids unwanted window
+        // redirections to the binary file)
+        event.preventDefault();
+
+        // retrieves the 
+        var file = event.dataTransfer.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+            if (mode == 1) {
+                loadImage(event.target.result);
+                return;
+            }
+
+            var md2 = THREEx.convertMd2(event.target.result, filename);
+
+            var statusString = "<HR><B>Status:</B> " + md.info.status;
+            if (md.info.status == "Success") {
+                statusString += "<BR><B>Faces:</B> " + md.info.faces;
+                statusString += "<BR><B>Vertices:</B> " + md.info.vertices;
+                statusString += "<BR><B>Frames:</B> " + md.info.frames;
+                statusString += "<BR><BR><form id='save'><B>Save file:</B><BR><input type='text' size='8' align='right' value='"
+                        + filename
+                        + "' id='filename'/>.js&nbsp;<input type='submit' onclick='saveFile()' value=' Save '/><BR></form><BR>(Chrome will download it,<BR>&nbsp;Firefox will open it in a new window.<BR>&nbsp;Then choose to 'Save As')<HR>";
+            } else {
+                statusString = "<HR><B>Status:</B> <font color='#cc0000'>"
+                        + md.info.status + "</font><HR>";
+            }
+            document.getElementById("status").innerHTML = statusString;
+            document.getElementById("info").style.display = "block";
+
+            if (md.info.status != "Success") {
+                return;
+            }
+
+            var loader = new THREE.JSONLoader();
+            loader.createModel(JSON.parse(md.string), function(geometry) {
+                        if (mesh) {
+                            scene.remove(mesh);
+                        }
+                        
+                        if (dropSprite) {
+                            scene.remove(dropSprite);
+                            delete dropSprite;
+                        }
+
+                        material = new THREE.MeshBasicMaterial({
+                                    color : 0xffffff,
+                                    map : new THREE.Texture(),
+                                    wireframe : true,
+                                    morphTargets : true
+                                });
+
+                        mesh = new THREE.MorphAnimMesh(geometry, material);
+                        mesh.rotation.y = -Math.PI / 2;
+                        mesh.scale.set(5, 5, 5);
+                        mesh.duration = 1000 * (md.info.frames / 10);
+
+                        scene.add(mesh);
+                    });
+        };
+
+        var end = file.name.substr(file.name.length - 3).toLowerCase();
+        filename = file.name.substr(0, file.name.length - 4);
+
+        if ((end == "jpg" || end == "png") && mesh) {
+            mode = 1;
+            reader.readAsDataURL(file);
+        } else {
+            mode = 0;
+            reader.readAsBinaryString(file);
+        }
+    }
+    
+    function onDocumentDragOver(event) {
+        event.preventDefault();
+    }
+
+    function onDocumentLeave(event) {
+        event.preventDefault();
+    }
 
     var render = function() {
         requestAnimationFrame(render);
 
+        // retrieves the current frame rendering time (to be used
+        // as reference for sprite animation)
+        var date = new Date();
+        var time = date.getTime();
+
+        if (dropSprite) {
+            var pulse = Math.sin(time / 200) / 40;
+            dropSprite.scale.set(0.5 + pulse, 0.5 + pulse, 0);
+        }
+
+        // increments the rotation of the cube by a simple
+        // value (example rendering)
         cube.rotation.x += 0.1;
         cube.rotation.y += 0.1;
         renderer.render(scene, camera);
-    }
+    };
 
     // calls the render operation so that the render process may
     // start (game start function)
+    register();
     render();
 });
