@@ -141,10 +141,12 @@ jQuery(document).ready(function() {
                     });
         };
 
-        var end = file.name.substr(file.name.length - 3).toLowerCase();
-        filename = file.name.substr(0, file.name.length - 4);
+        // retrieves both the extension and the name of the
+        // the file that has been uploaded
+        var extension = file.name.substr(file.name.length - 3).toLowerCase();
+        var filename = file.name.substr(0, file.name.length - 4);
 
-        if ((end == "jpg" || end == "png") && mesh) {
+        if ((extension == "jpg" || extension == "png") && mesh) {
             mode = 1;
             reader.readAsDataURL(file);
         } else {
@@ -162,6 +164,8 @@ jQuery(document).ready(function() {
     }
 
     var render = function() {
+    	// requires the browser to repaint the area refered by the
+    	// render object (upad operation)
         requestAnimationFrame(render);
 
         // retrieves the current frame rendering time (to be used
@@ -178,6 +182,9 @@ jQuery(document).ready(function() {
         // value (example rendering)
         cube.rotation.x += 0.1;
         cube.rotation.y += 0.1;
+        
+        // schedules the render of the current scene using
+        // the provided camera reference
         renderer.render(scene, camera);
     };
 
