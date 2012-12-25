@@ -56,7 +56,7 @@ jQuery(document).ready(function() {
     // creates the drop sprite value and add it to the current scene
     // object (in order to be able to drop ip)
     var dropSprite = new THREE.Sprite({
-                map : THREE.ImageUtils.loadTexture("images/drop_gfx.png"),
+                map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
                 useScreenCoordinates : false
             });
     dropSprite.scale.set(0.5, 0.5, 0);

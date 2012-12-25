@@ -32,10 +32,8 @@
 body {
     line-height: 0px;
     margin: 0px 0px 0px 0px;
+    overflow: hidden;
 }
 
 canvas {
-    height: 100%;
-    line-height: 0px;
-    width: 100%;
 }
