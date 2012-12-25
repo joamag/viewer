@@ -12,8 +12,8 @@
         <title>Pong</title>
     </head>
     <body>
-        <div class="info"></div>
-        <div class="status">
+        <div id="info" class="info"></div>
+        <div id="status" class="status">
             <strong>MD2 to JSON Converter</strong>
             <p>
                 A small tool to convert MD2 models<br/>

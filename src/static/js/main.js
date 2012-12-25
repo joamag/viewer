@@ -35,10 +35,20 @@ jQuery(document).ready(function() {
                 }
             });
 
+    var delta
+    var time;
+    var oldTime;
+
+    var mesh;
+    var material;
+    var mode = 0; // 0 = md2, 1 = jpg/png(texture);
+    var filename = "md2";
+    var dropSprite;
+
     // creates the scene object used to store the global
     // information on the scene to be rendered
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75,
+    var camera = new THREE.PerspectiveCamera(60,
             (window.innerWidth / window.innerHeight), 0.1, 1000);
 
     // creates the webgl renderer object and starts it with
@@ -62,7 +72,7 @@ jQuery(document).ready(function() {
                 color : 0x00ff00
             });
     var cube = new THREE.Mesh(geometry, material);
-    // scene.add(cube);
+    //scene.add(cube);
 
     // creates the drop sprite value and add it to the current scene
     // object (in order to be able to drop ip)
@@ -70,7 +80,7 @@ jQuery(document).ready(function() {
                 map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
                 useScreenCoordinates : false
             });
-    dropSprite.scale.set(0.5, 0.5, 0);
+    dropSprite.scale.set(1.0, 1.0, 0.0);
     scene.add(dropSprite);
 
     // updates the camera position so that it positions itself
@@ -81,9 +91,12 @@ jQuery(document).ready(function() {
         document.addEventListener("drop", onDocumentDrop, false);
         document.addEventListener("dragover", onDocumentDragOver, false);
         document.addEventListener("dragleave", onDocumentLeave, false);
-        /*document.addEventListener("mousemove", onDocumentMouseMove, false);
-        document.addEventListener("mousewheel", onDocumentMouseWheel, false);
-        document.addEventListener("DOMMouseScroll", onDocumentMouseWheel, false);*/
+        /*
+         * document.addEventListener("mousemove", onDocumentMouseMove, false);
+         * document.addEventListener("mousewheel", onDocumentMouseWheel, false);
+         * document.addEventListener("DOMMouseScroll", onDocumentMouseWheel,
+         * false);
+         */
     };
 
     var onDocumentDrop = function(event) {
@@ -142,6 +155,10 @@ jQuery(document).ready(function() {
                             delete dropSprite;
                         }
 
+                        // updates the camera position so that it positions itself
+                        // at some distance from the scene
+                        camera.position.z = 80;
+
                         material = new THREE.MeshBasicMaterial({
                                     color : 0xffffff,
                                     map : new THREE.Texture(),
@@ -151,8 +168,14 @@ jQuery(document).ready(function() {
 
                         mesh = new THREE.MorphAnimMesh(geometry, material);
                         mesh.rotation.y = -Math.PI / 2;
-                        mesh.scale.set(5, 5, 5);
+                        mesh.scale.set(1.0, 1.0, 1.0);
                         mesh.duration = 1000 * (model.info.frames / 10);
+                        
+                        // @TODO: tenho de computar melhor o centro geo metrico do modelo
+                        // tambem com base no min que la esta
+                        mesh.geometry.computeBoundingBox();
+                        console.info(mesh.geometry.boundingBox);
+                        mesh.position.y -= mesh.geometry.boundingBox.max.y / 2.0;
 
                         scene.add(mesh);
                     });
@@ -172,13 +195,25 @@ jQuery(document).ready(function() {
         }
     }
 
-    function onDocumentDragOver(event) {
+    var onDocumentDragOver = function(event) {
         event.preventDefault();
     }
 
-    function onDocumentLeave(event) {
+    var onDocumentLeave = function(event) {
         event.preventDefault();
     }
+    
+    var loadImage = function(src) {
+    var image = document.createElement('img');
+    material.map.image = image;
+    material.wireframe = false;
+
+    image.onload = function() {
+        material.map.needsUpdate = true;
+    };
+
+    image.src = src;
+}
 
     var render = function() {
         // requires the browser to repaint the area refered by the
@@ -186,13 +221,21 @@ jQuery(document).ready(function() {
         requestAnimationFrame(render);
 
         // retrieves the current frame rendering time (to be used
-        // as reference for sprite animation)
+        // as reference for sprite animation) and calculates the
+        // delta time from the old time and the sets the current
+        // time as the "new" old time value
         var date = new Date();
         var time = date.getTime();
+        delta = time - oldTime;
+        oldTime = time;
 
         if (dropSprite) {
             var pulse = Math.sin(time / 200) / 40;
             dropSprite.scale.set(0.5 + pulse, 0.5 + pulse, 0);
+        }
+
+        if (mesh) {
+            mesh.updateAnimation(delta);
         }
 
         // increments the rotation of the cube by a simple
