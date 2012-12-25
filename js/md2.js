@@ -35,14 +35,16 @@ var THREEx = THREEx || {};
  * @param {String}
  *            file The complete set of contents of the md2 file to be converted.
  * @param {String}
- *            filename The name of the md2 file to be coonverted
+ *            filename The name of the md2 file to be coonverted.
+ * @param {Integer}
+ *            precision The amount of precision to be used in decimal calculus.
  * @return {String} The string representation of the json model file resulting
  *         from the conversion of the md2 model.
  */
-THREEx.loadMd2 = function(file, filename, decimalPrecision) {
+THREEx.loadMd2 = function(file, filename, precision) {
     // default the decimal precision value to the default
     // one in case no parameter is provided
-    decimalPrecision = decimalPrecision || 1;
+    precision = precision || 1;
 
     // crates the various structures to be used in the
     // creation of the model file
@@ -163,9 +165,9 @@ THREEx.loadMd2 = function(file, filename, decimalPrecision) {
             var yy = frame.scale.z * tempZ + frame.translate.z;
             var zz = frame.scale.y * tempY + frame.translate.y;
 
-            frame.vertices.push(xx.toFixed(decimalPrecision) * -1);
-            frame.vertices.push(yy.toFixed(decimalPrecision));
-            frame.vertices.push(zz.toFixed(decimalPrecision));
+            frame.vertices.push(xx.toFixed(precision) * -1);
+            frame.vertices.push(yy.toFixed(precision));
+            frame.vertices.push(zz.toFixed(precision));
         }
 
         frames.push(frame);
