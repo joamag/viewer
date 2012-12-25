@@ -206,7 +206,8 @@ THREEx.loadMd2 = function(file, filename, precision) {
     // end
     str += "\n\n}";
 
-    // info
+    // updates the information object to be returned
+    // to the caller function with diagnostic information
     info.status = "Success";
     info.faces = header.num_tris;
     info.vertices = header.num_vertices;
