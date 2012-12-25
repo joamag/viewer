@@ -30,10 +30,29 @@
 */
 
 body {
+    font-family: Verdana, Arial, Helvetica, Sans-Serif;
+    font-size: 10px;
     line-height: 0px;
     margin: 0px 0px 0px 0px;
     overflow: hidden;
 }
 
 canvas {
+    z-index: 1;
+}
+
+.status {
+    background-color: #000000;
+    border-radius: 12px 12px 12px 12px;
+    color: #f4f4f4;
+    left: 10px;
+    line-height: 14px;
+    padding: 24px 24px 18px 24px;
+    position: absolute;
+    top: 10px;
+    z-index: 10;
+}
+
+.copyright {
+    color: #999999;
 }

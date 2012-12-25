@@ -34,7 +34,7 @@ jQuery(document).ready(function() {
     // the size of the current window and appends the renderer
     // element to the document body
     var renderer = new THREE.WebGLRenderer({
-                clearColor : 0x000000,
+                clearColor : 0x666666,
                 clearAlpha : 1.0
             });
     renderer.setSize(window.innerWidth, window.innerHeight);

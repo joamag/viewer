@@ -12,5 +12,30 @@
         <title>Pong</title>
     </head>
     <body>
+        <div class="status">
+            <strong>MD2 to JSON Converter</strong>
+            <p>
+                A small tool to convert MD2 models<br/>
+                (the old Quake 2 format) to the<br/>
+                JSON format used by three.js (Rev. 47+)<br/>
+            </p>
+            <p>
+                You should drag and drop a MD2 file<br/>
+                somewhere on to this page and it will<br/>
+                be converted and a preview of the<br/>
+                wireframed mesh should appear.<br/>
+            </p>
+            <p>
+                You can also drag and drop jpg/png<br/>
+                textures once the mesh is visible.<br/>
+            </p>
+            <p>
+                Note. You need a modern browser that<br/>
+                supports WebGL for this to run the way<br/>
+                it is intended.<br/>
+                For example. Chrome or Firefox.<br/>
+            </p>
+            <p class="copyright">(C) OutsideOfSociety 2012.</p>
+          </div>
     </body>
 </html>
