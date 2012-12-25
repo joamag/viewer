@@ -31,7 +31,7 @@ jQuery(document).ready(function() {
                 if (isVisible) {
                     status.fadeOut(200);
                 } else {
-                    status.fadeIn(250);
+                    status.fadeIn(200);
                 }
             });
 
