@@ -24,6 +24,17 @@
 // __license__   = GNU General Public License (GPL), Version 3
 
 jQuery(document).ready(function() {
+    var status = jQuery(".status");
+    var info = jQuery(".info");
+    info.click(function() {
+                var isVisible = status.is(":visible");
+                if (isVisible) {
+                    status.fadeOut(200);
+                } else {
+                    status.fadeIn(250);
+                }
+            });
+
     // creates the scene object used to store the global
     // information on the scene to be rendered
     var scene = new THREE.Scene();
@@ -70,12 +81,9 @@ jQuery(document).ready(function() {
         document.addEventListener("drop", onDocumentDrop, false);
         document.addEventListener("dragover", onDocumentDragOver, false);
         document.addEventListener("dragleave", onDocumentLeave, false);
-        /*
-         * document.addEventListener("mousemove", onDocumentMouseMove, false);
-         * document.addEventListener("mousewheel", onDocumentMouseWheel, false);
-         * document.addEventListener("DOMMouseScroll", onDocumentMouseWheel,
-         * false);
-         */
+        /*document.addEventListener("mousemove", onDocumentMouseMove, false);
+        document.addEventListener("mousewheel", onDocumentMouseWheel, false);
+        document.addEventListener("DOMMouseScroll", onDocumentMouseWheel, false);*/
     };
 
     var onDocumentDrop = function(event) {

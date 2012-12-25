@@ -12,6 +12,7 @@
         <title>Pong</title>
     </head>
     <body>
+        <div class="info"></div>
         <div class="status">
             <strong>MD2 to JSON Converter</strong>
             <p>
@@ -35,7 +36,7 @@
                 it is intended.<br/>
                 For example. Chrome or Firefox.<br/>
             </p>
-            <p class="copyright">(C) OutsideOfSociety 2012.</p>
+            <p class="copyright">(C) Hive Solutions 2008-2012</p>
           </div>
     </body>
 </html>

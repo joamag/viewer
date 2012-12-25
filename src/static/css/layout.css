@@ -41,13 +41,24 @@ canvas {
     z-index: 1;
 }
 
+.info {
+    background: transparent url(../images/info.png) no-repeat;
+    cursor: pointer;
+    height: 24px;
+    left: 20px;
+    position: absolute;
+    top: 18px;
+    width: 24px;
+    z-index: 20;
+}
+
 .status {
     background-color: #000000;
     border-radius: 12px 12px 12px 12px;
     color: #f4f4f4;
     left: 10px;
     line-height: 14px;
-    padding: 24px 24px 18px 24px;
+    padding: 14px 24px 8px 44px;
     position: absolute;
     top: 10px;
     z-index: 10;
