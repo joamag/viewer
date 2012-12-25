@@ -153,7 +153,7 @@ THREEx.loadMd2 = function(file, filename, precision) {
         frame.translate.y = reader.readFloat();
         frame.translate.z = reader.readFloat();
 
-        frame.name = reader.readString(16).replace(/[^a-z0-9]/gi, ''); // 4+4+4 4+4+4 (12 + 12) = 24 + 16 = 40
+        frame.name = reader.readString(16).replace(/[^a-z0-9]/gi, "");
 
         for (var v = 0; v < header.num_vertices; v++) {
             var tempX = reader.readUInt8();
