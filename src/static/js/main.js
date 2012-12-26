@@ -35,6 +35,11 @@ jQuery(document).ready(function() {
                 }
             });
 
+    // retrieves the current revision for the three
+    // library and convert it into an integer value for
+    // comparision, this allows the conditional execution
+    var REVISION = parseInt(THREE.REVISION);
+
     var delta
     var time;
     var oldTime;
@@ -76,17 +81,22 @@ jQuery(document).ready(function() {
     //scene.add(cube);
 
     // creates the drop sprite value and add it to the current scene
-    // object (in order to be able to drop ip)
-    var dropSprite = new THREE.Sprite({
+    // object (in order to be able to drop it)
+    var dropMaterial = REVISION >= 54 ? new THREE.SpriteMaterial({
                 map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
                 useScreenCoordinates : false
-            });
+            })
+            : {
+                map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
+                useScreenCoordinates : false
+            };
+    var dropSprite = new THREE.Sprite(dropMaterial);
     dropSprite.scale.set(1.0, 1.0, 0.0);
     scene.add(dropSprite);
 
     // updates the camera position so that it positions itself
     // at some distance from the scene
-    camera.position.z = 1.5;
+    camera.position.z = REVISION >= 53 ? 1.5 : 400.0;
 
     var register = function() {
         document.addEventListener("drop", onDocumentDrop, false);
@@ -210,6 +220,7 @@ jQuery(document).ready(function() {
         var image = document.createElement('img');
         material.map.image = image;
         material.wireframe = false;
+        material.map.flipY = false;
 
         image.onload = function() {
             material.map.needsUpdate = true;

@@ -50,6 +50,18 @@ def index():
         link = "home"
     )
 
+def run_waitress():
+    import waitress
+
+    # sets the debug control in the application
+    # then checks the current environment variable
+    # for the target port for execution (external)
+    # and then start running it (continuous loop)
+    debug = os.environ.get("DEBUG", False) and True or False
+    port = int(os.environ.get("PORT", 5000))
+    app.debug = debug
+    waitress.serve(app, host = "0.0.0.0", port = port)
+
 def run():
     # sets the debug control in the application
     # then checks the current environment variable
@@ -68,4 +80,4 @@ def run():
     )
 
 if __name__ == "__main__":
-    run()
+    run_waitress()
