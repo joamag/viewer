@@ -86,7 +86,7 @@ jQuery(document).ready(function() {
 
     // updates the camera position so that it positions itself
     // at some distance from the scene
-    camera.position.z = 400;
+    camera.position.z = 1.5;
 
     var register = function() {
         document.addEventListener("drop", onDocumentDrop, false);
