@@ -50,6 +50,7 @@ jQuery(document).ready(function() {
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(60,
             (window.innerWidth / window.innerHeight), 0.1, 1000);
+    scene.add(camera);
 
     // creates the webgl renderer object and starts it with
     // the size of the current window and appends the renderer
@@ -85,7 +86,7 @@ jQuery(document).ready(function() {
 
     // updates the camera position so that it positions itself
     // at some distance from the scene
-    camera.position.z = 1.5;
+    camera.position.z = 400;
 
     var register = function() {
         document.addEventListener("drop", onDocumentDrop, false);
@@ -170,11 +171,12 @@ jQuery(document).ready(function() {
                         mesh.rotation.y = -Math.PI / 2;
                         mesh.scale.set(1.0, 1.0, 1.0);
                         mesh.duration = 1000 * (model.info.frames / 10);
-                        
+
                         // @TODO: tenho de computar melhor o centro geo metrico do modelo
                         // tambem com base no min que la esta
                         mesh.geometry.computeBoundingBox();
-                        mesh.position.y -= mesh.geometry.boundingBox.max.y / 2.0;
+                        mesh.position.y -= mesh.geometry.boundingBox.max.y
+                                / 2.0;
 
                         scene.add(mesh);
                     });
@@ -201,18 +203,18 @@ jQuery(document).ready(function() {
     var onDocumentLeave = function(event) {
         event.preventDefault();
     }
-    
+
     var loadImage = function(src) {
-    var image = document.createElement('img');
-    material.map.image = image;
-    material.wireframe = false;
+        var image = document.createElement('img');
+        material.map.image = image;
+        material.wireframe = false;
 
-    image.onload = function() {
-        material.map.needsUpdate = true;
-    };
+        image.onload = function() {
+            material.map.needsUpdate = true;
+        };
 
-    image.src = src;
-}
+        image.src = src;
+    }
 
     var render = function() {
         // requires the browser to repaint the area refered by the
@@ -235,6 +237,7 @@ jQuery(document).ready(function() {
 
         if (mesh) {
             mesh.updateAnimation(delta);
+            mesh.rotation.y += 0.01;
         }
 
         // increments the rotation of the cube by a simple
