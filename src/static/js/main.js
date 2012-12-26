@@ -178,6 +178,8 @@ jQuery(document).ready(function() {
                         mesh.position.y -= mesh.geometry.boundingBox.max.y
                                 / 2.0;
 
+                        // adds the "just" created mesh to current scene so that
+                        // it appears in the complete composition
                         scene.add(mesh);
                     });
         };
