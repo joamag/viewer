@@ -174,7 +174,6 @@ jQuery(document).ready(function() {
                         // @TODO: tenho de computar melhor o centro geo metrico do modelo
                         // tambem com base no min que la esta
                         mesh.geometry.computeBoundingBox();
-                        console.info(mesh.geometry.boundingBox);
                         mesh.position.y -= mesh.geometry.boundingBox.max.y / 2.0;
 
                         scene.add(mesh);
