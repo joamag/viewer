@@ -104,7 +104,7 @@ THREEx.loadMd2 = function(file, filename, precision) {
     // seeks the reader to the texture offset position
     // and starts the reading of them
     reader.seek(header.offset_st);
-    for (var i = 0; i < header.num_st; i++) {
+    for (var index = 0; index < header.num_st; index++) {
         var s = reader.readInt16() / header.skinwidth;
         var t = reader.readInt16() / header.skinheight;
 
@@ -115,7 +115,7 @@ THREEx.loadMd2 = function(file, filename, precision) {
     // seeks the reader to the triangles offset position
     // and starts the reading of them
     reader.seek(header.offset_tris);
-    for (var i = 0; i < header.num_tris; i++) {
+    for (var index = 0; index < header.num_tris; index++) {
         var a = reader.readInt16();
         var b = reader.readInt16();
         var c = reader.readInt16();
@@ -138,7 +138,7 @@ THREEx.loadMd2 = function(file, filename, precision) {
     // seeks the reader to the frames offset position
     // and starts the reading of them
     reader.seek(header.offset_frames);
-    for (var f = 0; f < header.num_frames; f++) {
+    for (var index = 0; index < header.num_frames; index++) {
         var frame = {};
         frame.vertices = [];
         frame.name = "";
@@ -155,7 +155,7 @@ THREEx.loadMd2 = function(file, filename, precision) {
 
         frame.name = reader.readString(16).replace(/[^a-z0-9]/gi, "");
 
-        for (var v = 0; v < header.num_vertices; v++) {
+        for (var _index = 0; _index < header.num_vertices; _index++) {
             var tempX = reader.readUInt8();
             var tempY = reader.readUInt8();
             var tempZ = reader.readUInt8();
@@ -177,8 +177,8 @@ THREEx.loadMd2 = function(file, filename, precision) {
     // of the frames and creating the proper structure
     // with a name and a list of vertices
     var morphTargets = [];
-    for (var i = 0; i < frames.length; ++i) {
-        var frame = frames[i];
+    for (var index = 0; index < frames.length; index++) {
+        var frame = frames[index];
         var morphTarget = {
             name : frame.name,
             vertices : frame.vertices
