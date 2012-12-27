@@ -56,13 +56,13 @@ canvas {
     background-color: #000000;
     border-radius: 12px 12px 12px 12px;
     color: #f4f4f4;
+    display: none;
     left: 10px;
     line-height: 14px;
     padding: 14px 24px 8px 44px;
     position: absolute;
     top: 10px;
     z-index: 10;
-    display: none;
 }
 
 .copyright {

@@ -210,11 +210,11 @@ jQuery(document).ready(function() {
 
     var onDocumentDragOver = function(event) {
         event.preventDefault();
-    }
+    };
 
     var onDocumentLeave = function(event) {
         event.preventDefault();
-    }
+    };
 
     var loadImage = function(src) {
         var image = document.createElement('img');
@@ -227,7 +227,7 @@ jQuery(document).ready(function() {
         };
 
         image.src = src;
-    }
+    };
 
     var render = function() {
         // requires the browser to repaint the area refered by the
