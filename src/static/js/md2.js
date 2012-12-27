@@ -165,46 +165,45 @@ THREEx.loadMd2 = function(file, filename, precision) {
             var yy = frame.scale.z * tempZ + frame.translate.z;
             var zz = frame.scale.y * tempY + frame.translate.y;
 
-            frame.vertices.push(xx.toFixed(precision) * -1);
-            frame.vertices.push(yy.toFixed(precision));
-            frame.vertices.push(zz.toFixed(precision));
+            frame.vertices.push(parseFloat(xx.toFixed(precision) * -1));
+            frame.vertices.push(parseFloat(yy.toFixed(precision)));
+            frame.vertices.push(parseFloat(zz.toFixed(precision)));
         }
 
         frames.push(frame);
     }
 
-    // starts the construction of the string
-    var str = "";
-    // metadata
-    str += "{\n\n\"metadata\" : {\n\"formatVersion\" : 3,\n\"description\"    : \"Md 2 model converted from "
-            + filename + ".md2 using MD2 to json converter.\"\n},";
-    // scale +material
-    str += "\n\n\"scale\" : 1.000000,\n\n\"materials\": [    {\n\"DbgColor\" : 15658734,\n\"DbgIndex\" : 0,\n\"DbgName\" : \"md2_material\"\n}],";
-    // vertices
-    str += "\n\n\"vertices\": [" + frames[0].vertices.toString() + "],";
-    // morphtargtes
-    str += "\n\n\"morphTargets\": [\n";
+    var morphTargets = [];
     for (var i = 0; i < frames.length; ++i) {
         var frame = frames[i];
-        var comma = ",";
-        if (i >= frames.length - 1)
-            comma = "";
-        str += "{ \"name\": \"" + frame.name + "\", \"vertices\": ["
-                + frame.vertices.toString() + "] }" + comma + "\n";
+        var morphTarget = {
+            name : frame.name,
+            vertices : frame.vertices
+        };
+        morphTargets.push(morphTarget);
     }
-    str += "],";
-    // morphColors
-    str += "\n\n\"morphColors\": [],";
-    // normals
-    str += "\n\n\"normals\": [],";
-    // colors
-    str += "\n\n\"colors\": [],";
-    // uvs
-    str += "\n\n\"uvs\": [[" + uvs.toString() + "]],";
-    // faces
-    str += "\n\n\"faces\": [" + faces.toString() + "]";
-    // end
-    str += "\n\n}";
+
+    var model = {
+        metadata : {
+            formatVersion : 3,
+            description : "Model converted from " + filename
+                    + ".md2 using md2 to json converter."
+        },
+        scale : 1.0,
+        materials : [{
+                    DbgColor : 15658734,
+                    DbgIndex : 0,
+                    DbgName : "md2_material"
+                }],
+        vertices : frames[0].vertices,
+        morphTargets : morphTargets,
+        morphColors : [],
+        normals : [],
+        colors : [],
+        uvs : [uvs],
+        faces : faces
+    };
+    var modelS = JSON.stringify(model);
 
     // updates the information object to be returned
     // to the caller function with diagnostic information
@@ -213,6 +212,6 @@ THREEx.loadMd2 = function(file, filename, precision) {
     info.vertices = header.num_vertices;
     info.frames = header.num_frames;
 
-    returnObject.string = str;
+    returnObject.string = modelS;
     return returnObject;
 }
