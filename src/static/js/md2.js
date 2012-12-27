@@ -173,6 +173,9 @@ THREEx.loadMd2 = function(file, filename, precision) {
         frames.push(frame);
     }
 
+    // creates the morph targets by iterating by each
+    // of the frames and creating the proper structure
+    // with a name and a list of vertices
     var morphTargets = [];
     for (var i = 0; i < frames.length; ++i) {
         var frame = frames[i];
@@ -183,6 +186,9 @@ THREEx.loadMd2 = function(file, filename, precision) {
         morphTargets.push(morphTarget);
     }
 
+    // creates the model structure with the complete set
+    // of data that is mandatory for the json model then
+    // serializes it into a json string model
     var model = {
         metadata : {
             formatVersion : 3,
@@ -212,6 +218,8 @@ THREEx.loadMd2 = function(file, filename, precision) {
     info.vertices = header.num_vertices;
     info.frames = header.num_frames;
 
+    // sets the model string in the return object and
+    // then returns the object to the caller method
     returnObject.string = modelS;
     return returnObject;
 }
