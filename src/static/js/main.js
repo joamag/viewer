@@ -50,6 +50,9 @@ jQuery(document).ready(function() {
     var filename = "md2";
     var dropSprite;
 
+    var mouseX;
+    var mouseY;
+
     // creates the scene object used to store the global
     // information on the scene to be rendered
     var scene = new THREE.Scene();
@@ -99,25 +102,29 @@ jQuery(document).ready(function() {
     camera.position.z = REVISION >= 53 ? 1.5 : 400.0;
 
     var register = function() {
-        document.addEventListener("drop", onDocumentDrop, false);
-        document.addEventListener("dragover", onDocumentDragOver, false);
-        document.addEventListener("dragleave", onDocumentLeave, false);
-        /*
-         * document.addEventListener("mousemove", onDocumentMouseMove, false);
-         * document.addEventListener("mousewheel", onDocumentMouseWheel, false);
-         * document.addEventListener("DOMMouseScroll", onDocumentMouseWheel,
-         * false);
-         */
+        var _document = jQuery(document);
+
+        _document.bind("drop", onDocumentDrop);
+        _document.bind("dragover", onDocumentDragOver);
+        _document.bind("dragleave", onDocumentLeave);
+        _document.bind("mousedown", onDocumentMouseDown);
+        _document.bind("mousemove", onDocumentMouseMove);
+        _document.bind("mousewheel", onDocumentMouseWheel);
+        _document.bind("DOMMouseScroll", onDocumentMouseWheel);
     };
 
     var onDocumentDrop = function(event) {
+        // sets the event as the original event, retrieved
+        // from the event structure
+        var _event = event.originalEvent;
+
         // presents the default event (avoids unwanted window
         // redirections to the binary file)
         event.preventDefault();
 
         // retrieves the reference to the first file that is
         // going to be used as the model file to be laoded
-        var file = event.dataTransfer.files[0];
+        var file = _event.dataTransfer.files[0];
 
         // creates a new file reader object and register the
         // handler for the load event on it
@@ -216,6 +223,53 @@ jQuery(document).ready(function() {
         event.preventDefault();
     };
 
+    var onDocumentMouseDown = function(event) {
+        mouseX = null;
+        mouseY = null;
+
+        event.preventDefault();
+    };
+
+    var onDocumentMouseMove = function(event) {
+        if (event.which != 1) {
+            return;
+        }
+
+        var isDefined = mouseX != null && mouseY != null;
+        if (isDefined && mesh) {
+            var deltaX = (event.pageX - mouseX) / 10;
+            var deltaY = (event.pageY - mouseY) / 10;
+
+            camera.position.x -= deltaX;
+            camera.position.y += deltaY;
+        }
+
+        mouseX = event.pageX;
+        mouseY = event.pageY;
+
+        event.preventDefault();
+    };
+
+    var onDocumentMouseWheel = function(event) {
+        // sets the event as the original event, retrieved
+        // from the event structure
+        var _event = event.originalEvent;
+
+        var wheelData = 0;
+
+        if (_event.wheelDelta) {
+            wheelData = _event.wheelDelta / 100;
+        } else if (_event.detail) {
+            wheelData = -_event.detail;
+        }
+
+        if (mesh) {
+            camera.position.z -= wheelData;
+        }
+
+        event.preventDefault();
+    };
+
     var loadImage = function(src) {
         var image = document.createElement('img');
         material.map.image = image;
@@ -243,11 +297,15 @@ jQuery(document).ready(function() {
         delta = time - oldTime;
         oldTime = time;
 
+        // in case the drop sprite is defined must run the pulse
+        // animation so that it grows and shrinks
         if (dropSprite) {
             var pulse = Math.sin(time / 200) / 40;
             dropSprite.scale.set(0.5 + pulse, 0.5 + pulse, 0);
         }
 
+        // in case the mesh is defined must update its animation
+        // and rotate it arround the y axis
         if (mesh) {
             mesh.updateAnimation(delta);
             mesh.rotation.y += 0.01;
