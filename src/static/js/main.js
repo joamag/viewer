@@ -70,6 +70,13 @@ jQuery(document).ready(function() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+    // creates a new statistics element to display frame rate
+    // information and adds it to the bottom of the screen
+    var stats = new Stats();
+    stats.domElement.style.position = "absolute";
+    stats.domElement.style.bottom = "0px";
+    document.body.appendChild(stats.domElement);
+
     // registers the renderer for the resize of the window
     // so that the ratios are maintained and the camera position
     THREEx.WindowResize(renderer, camera);
@@ -319,6 +326,10 @@ jQuery(document).ready(function() {
         // schedules the render of the current scene using
         // the provided camera reference
         renderer.render(scene, camera);
+
+        // runs the update operation on the statistics object
+        // so that new values should appear
+        stats.update();
     };
 
     // calls the render operation so that the render process may

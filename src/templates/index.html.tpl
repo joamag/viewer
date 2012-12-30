@@ -7,6 +7,7 @@
         <script src="{{ url_for('static', filename = 'libs/three/js/three_r54.js') }}"></script>
         <script src="{{ url_for('static', filename = 'libs/js/binary.js') }}"></script>
         <script src="{{ url_for('static', filename = 'js/util.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/stats.js') }}"></script>
         <script src="{{ url_for('static', filename = 'js/md2.js') }}"></script>
         <script src="{{ url_for('static', filename = 'js/main.js') }}"></script>
         <title>Pong</title>
