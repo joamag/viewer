@@ -40,35 +40,40 @@ jQuery(document).ready(function() {
     // comparision, this allows the conditional execution
     var REVISION = parseInt(THREE.REVISION);
 
-    var delta
-    var time;
-    var oldTime;
-
-    var mesh;
-    var material;
-    var mode = 0; // 0 = md2, 1 = jpg/png(texture);
-    var filename = "md2";
-    var dropSprite;
-
-    var mouseX;
-    var mouseY;
+    // creates the main structure that represents the state
+    // of the current scene in an abstract fashion
+    var state = {
+        delta : 0.0,
+        time : 0.0,
+        oldTime : 0.0,
+        scene : null,
+        camera : null,
+        renderer : null,
+        mesh : null,
+        material : null,
+        mode : 0,
+        filename : "md2",
+        dropSprite : null,
+        mouseX : 0,
+        mouseY : 0
+    };
 
     // creates the scene object used to store the global
     // information on the scene to be rendered
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(60,
+    state.scene = new THREE.Scene();
+    state.camera = new THREE.PerspectiveCamera(60,
             (window.innerWidth / window.innerHeight), 0.1, 1000);
-    scene.add(camera);
+    state.scene.add(state.camera);
 
     // creates the webgl renderer object and starts it with
     // the size of the current window and appends the renderer
     // element to the document body
-    var renderer = new THREE.WebGLRenderer({
+    state.renderer = new THREE.WebGLRenderer({
                 clearColor : 0x666666,
                 clearAlpha : 1.0
             });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    state.renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(state.renderer.domElement);
 
     // creates a new statistics element to display frame rate
     // information and adds it to the bottom of the screen
@@ -79,16 +84,7 @@ jQuery(document).ready(function() {
 
     // registers the renderer for the resize of the window
     // so that the ratios are maintained and the camera position
-    THREEx.WindowResize(renderer, camera);
-
-    // creates a new geometry for the cube object and a new material
-    // then creates the mesh with and adds them to the scene
-    var geometry = new THREE.CubeGeometry(1, 1, 1);
-    var material = new THREE.MeshBasicMaterial({
-                color : 0x00ff00
-            });
-    var cube = new THREE.Mesh(geometry, material);
-    //scene.add(cube);
+    THREEx.WindowResize(state.renderer, state.camera);
 
     // creates the drop sprite value and add it to the current scene
     // object (in order to be able to drop it)
@@ -102,11 +98,11 @@ jQuery(document).ready(function() {
             };
     var dropSprite = new THREE.Sprite(dropMaterial);
     dropSprite.scale.set(1.0, 1.0, 0.0);
-    scene.add(dropSprite);
+    state.scene.add(dropSprite);
 
     // updates the camera position so that it positions itself
     // at some distance from the scene
-    camera.position.z = REVISION >= 53 ? 1.5 : 400.0;
+    state.camera.position.z = REVISION >= 53 ? 1.5 : 400.0;
 
     var register = function() {
         var _document = jQuery(document);
@@ -137,7 +133,7 @@ jQuery(document).ready(function() {
         // handler for the load event on it
         var reader = new FileReader();
         reader.onload = function(event) {
-            if (mode == 1) {
+            if (state.mode == 1) {
                 loadImage(event.target.result);
                 return;
             }
@@ -171,40 +167,39 @@ jQuery(document).ready(function() {
             loader.createModel(JSON.parse(model.string), function(geometry) {
                         // in case there's a mesh loaded must remove it from
                         // the scene not to be displayed anymore
-                        mesh && scene.remove(mesh);
+                        state.mesh && state.scene.remove(state.mesh);
 
                         // in case the drop sprite is set must remove it from
                         // the scene and delete the object
                         if (dropSprite) {
-                            scene.remove(dropSprite);
+                            state.scene.remove(dropSprite);
                             delete dropSprite;
                         }
 
                         // updates the camera position so that it positions itself
                         // at some distance from the scene
-                        camera.position.z = 80;
+                        state.camera.position.z = 80;
 
                         material = new THREE.MeshBasicMaterial({
-                                    color : 0xffffff,
                                     map : new THREE.Texture(),
                                     wireframe : true,
                                     morphTargets : true
                                 });
 
-                        mesh = new THREE.MorphAnimMesh(geometry, material);
-                        mesh.rotation.y = -Math.PI / 2;
-                        mesh.scale.set(1.0, 1.0, 1.0);
-                        mesh.duration = 1000 * (model.info.frames / 10);
+                        state.mesh = new THREE.MorphAnimMesh(geometry, material);
+                        state.mesh.scale.set(1.0, 1.0, 1.0);
+                        state.mesh.duration = 1000 * (model.info.frames / 10);
+                        state.mesh.geometry.computeMorphNormals();
 
                         // @TODO: tenho de computar melhor o centro geo metrico do modelo
                         // tambem com base no min que la esta
-                        mesh.geometry.computeBoundingBox();
-                        mesh.position.y -= mesh.geometry.boundingBox.max.y
+                        state.mesh.geometry.computeBoundingBox();
+                        state.mesh.position.y -= state.mesh.geometry.boundingBox.max.y
                                 / 2.0;
 
                         // adds the "just" created mesh to current scene so that
                         // it appears in the complete composition
-                        scene.add(mesh);
+                        state.scene.add(state.mesh);
                     });
         };
 
@@ -213,11 +208,11 @@ jQuery(document).ready(function() {
         var extension = file.name.substr(file.name.length - 3).toLowerCase();
         var filename = file.name.substr(0, file.name.length - 4);
 
-        if ((extension == "jpg" || extension == "png") && mesh) {
-            mode = 1;
+        if ((extension == "jpg" || extension == "png") && state.mesh) {
+            state.mode = 1;
             reader.readAsDataURL(file);
         } else {
-            mode = 0;
+            state.mode = 0;
             reader.readAsBinaryString(file);
         }
     }
@@ -243,12 +238,12 @@ jQuery(document).ready(function() {
         }
 
         var isDefined = mouseX != null && mouseY != null;
-        if (isDefined && mesh) {
+        if (isDefined && state.mesh) {
             var deltaX = (event.pageX - mouseX) / 10;
             var deltaY = (event.pageY - mouseY) / 10;
 
-            camera.position.x -= deltaX;
-            camera.position.y += deltaY;
+            state.camera.position.x -= deltaX;
+            state.camera.position.y += deltaY;
         }
 
         mouseX = event.pageX;
@@ -270,8 +265,8 @@ jQuery(document).ready(function() {
             wheelData = -_event.detail;
         }
 
-        if (mesh) {
-            camera.position.z -= wheelData;
+        if (state.mesh) {
+            state.camera.position.z -= wheelData;
         }
 
         event.preventDefault();
@@ -301,8 +296,8 @@ jQuery(document).ready(function() {
         // time as the "new" old time value
         var date = new Date();
         var time = date.getTime();
-        delta = time - oldTime;
-        oldTime = time;
+        state.delta = time - state.oldTime;
+        state.oldTime = time;
 
         // in case the drop sprite is defined must run the pulse
         // animation so that it grows and shrinks
@@ -313,19 +308,14 @@ jQuery(document).ready(function() {
 
         // in case the mesh is defined must update its animation
         // and rotate it arround the y axis
-        if (mesh) {
-            mesh.updateAnimation(delta);
-            mesh.rotation.y += 0.01;
+        if (state.mesh) {
+            state.mesh.updateAnimation(state.delta);
+            state.mesh.rotation.y += 0.01;
         }
-
-        // increments the rotation of the cube by a simple
-        // value (example rendering)
-        cube.rotation.x += 0.1;
-        cube.rotation.y += 0.1;
 
         // schedules the render of the current scene using
         // the provided camera reference
-        renderer.render(scene, camera);
+        state.renderer.render(state.scene, state.camera);
 
         // runs the update operation on the statistics object
         // so that new values should appear
