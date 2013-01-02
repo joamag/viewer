@@ -237,20 +237,25 @@ jQuery(document).ready(function() {
                         // at some distance from the scene
                         state.camera.position.z = 80;
 
+                        // creates a new material for the texture to be mapped in
+                        // the mesh, this will be loaded with the image later
                         state.material = new THREE.MeshBasicMaterial({
                                     map : new THREE.Texture(),
                                     wireframe : true,
                                     morphTargets : true
                                 });
 
+                        // creates a new mesh with the computed
+                        // geometry and computes its normal values
                         state.mesh = new THREE.MorphAnimMesh(geometry,
                                 state.material);
                         state.mesh.scale.set(1.0, 1.0, 1.0);
                         state.mesh.duration = 1000 * (model.info.frames / 10);
                         state.mesh.geometry.computeMorphNormals();
 
-                        // @TODO: tenho de computar melhor o centro geo metrico do modelo
-                        // tambem com base no min que la esta
+                        // calculates the bounding box for the geomtery
+                        // and then uses it's value to position the mesh
+                        // in the center of the screen
                         state.mesh.geometry.computeBoundingBox();
                         state.mesh.position.y -= state.mesh.geometry.boundingBox.max.y
                                 / 2.0;
