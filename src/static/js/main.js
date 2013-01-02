@@ -199,20 +199,24 @@ jQuery(document).ready(function() {
             // should contain the contents of its source file
             var model = THREEx.loadMd2(event.target.result, filename);
 
-            var statusString = "<HR><B>Status:</B> " + model.info.status;
+            // ------------------  START OF UPDATE
+
+            var statusString = "<hr><b>Status:</b> " + model.info.status;
             if (model.info.status == "Success") {
-                statusString += "<BR><B>Faces:</B> " + model.info.faces;
-                statusString += "<BR><B>Vertices:</B> " + model.info.vertices;
-                statusString += "<BR><B>Frames:</B> " + model.info.frames;
-                statusString += "<BR><BR><form id='save'><B>Save file:</B><BR><input type='text' size='8' align='right' value='"
+                statusString += "<br><b>Faces:</b> " + model.info.faces;
+                statusString += "<br><b>Vertices:</b> " + model.info.vertices;
+                statusString += "<br><b>Frames:</b> " + model.info.frames;
+                statusString += "<br><br><form id='save'><b>Save file:</b><br><input type='text' size='8' align='right' value='"
                         + filename
-                        + "' id='filename'/>.js&nbsp;<input type='submit' onclick='saveFile()' value=' Save '/><BR></form><BR>(Chrome will download it,<BR>&nbsp;Firefox will open it in a new window.<BR>&nbsp;Then choose to 'Save As')<HR>";
+                        + "' id='filename'/>.js&nbsp;<input type='submit' onclick='saveFile()' value=' Save '/><br></form><br>(Chrome will download it,<br>&nbsp;Firefox will open it in a new window.<br>&nbsp;Then choose to 'Save As')<hr>";
             } else {
-                statusString = "<HR><B>Status:</B> <font color='#cc0000'>"
-                        + model.info.status + "</font><HR>";
+                statusString = "<hr><b>Status:</b> <font color='#cc0000'>"
+                        + model.info.status + "</font><hr>";
             }
             document.getElementById("status").innerHTML = statusString;
             document.getElementById("info").style.display = "block";
+
+            /// --------------------- END OF UPDATE ----
 
             if (model.info.status != "Success") {
                 return;
@@ -221,7 +225,8 @@ jQuery(document).ready(function() {
             // creates a new json (model) loader and uses it to
             // start the loading of the model that was created
             var loader = new THREE.JSONLoader();
-            loader.createModel(JSON.parse(model.string), function(geometry) {
+            var modelL = JSON.parse(model.string);
+            loader.createModel(modelL, function(geometry) {
                         // in case there's a mesh loaded must remove it from
                         // the scene not to be displayed anymore
                         state.mesh && state.scene.remove(state.mesh);
