@@ -79,7 +79,7 @@ jQuery(document).ready(function() {
 
         // creates a new statistics element to display frame rate
         // information and adds it to the bottom of the screen
-        state.stats = new Stats();
+        state.stats = new THREEx.Stats();
         state.stats.domElement.style.position = "absolute";
         state.stats.domElement.style.bottom = "0px";
         document.body.appendChild(state.stats.domElement);

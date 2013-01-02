@@ -1,8 +1,32 @@
-/**
- * @author mrdoob / http://mrdoob.com/
- */
+// Hive Three Extensions
+// Copyright (C) 2008-2012 Hive Solutions Lda.
+//
+// This file is part of Hive Three Extensions.
+//
+// Hive Three Extensions is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Hive Three Extensions is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Hive Three Extensions. If not, see <http://www.gnu.org/licenses/>.
 
-var Stats = function() {
+// __author__    = João Magalhães <joamag@hive.pt>
+// __version__   = 1.0.0
+// __revision__  = $LastChangedRevision$
+// __date__      = $LastChangedDate$
+// __copyright__ = Copyright (c) 2010-2012 Hive Solutions Lda.
+// __license__   = GNU General Public License (GPL), Version 3
+// __credits__   = Ricardo Miguel <mrdoob@gmail.com>
+
+var THREEx = THREEx || {};
+
+THREEx.Stats = function() {
     var startTime = Date.now(), prevTime = startTime;
     var ms = 0, msMin = Infinity, msMax = 0;
     var fps = 0, fpsMin = Infinity, fpsMax = 0;
