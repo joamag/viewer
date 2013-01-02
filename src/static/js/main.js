@@ -49,60 +49,67 @@ jQuery(document).ready(function() {
         scene : null,
         camera : null,
         renderer : null,
-        mesh : null,
         material : null,
+        mesh : null,
         mode : 0,
         filename : "md2",
         dropSprite : null,
+        stats : null,
         mouseX : 0,
         mouseY : 0
     };
 
-    // creates the scene object used to store the global
-    // information on the scene to be rendered
-    state.scene = new THREE.Scene();
-    state.camera = new THREE.PerspectiveCamera(60,
-            (window.innerWidth / window.innerHeight), 0.1, 1000);
-    state.scene.add(state.camera);
+    var build = function() {
+        // creates the scene object used to store the global
+        // information on the scene to be rendered
+        state.scene = new THREE.Scene();
+        state.camera = new THREE.PerspectiveCamera(60,
+                (window.innerWidth / window.innerHeight), 0.1, 1000);
+        state.scene.add(state.camera);
 
-    // creates the webgl renderer object and starts it with
-    // the size of the current window and appends the renderer
-    // element to the document body
-    state.renderer = new THREE.WebGLRenderer({
-                clearColor : 0x666666,
-                clearAlpha : 1.0
-            });
-    state.renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(state.renderer.domElement);
+        // creates the webgl renderer object and starts it with
+        // the size of the current window and appends the renderer
+        // element to the document body
+        state.renderer = new THREE.WebGLRenderer({
+                    clearColor : 0x666666,
+                    clearAlpha : 1.0
+                });
+        state.renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(state.renderer.domElement);
 
-    // creates a new statistics element to display frame rate
-    // information and adds it to the bottom of the screen
-    var stats = new Stats();
-    stats.domElement.style.position = "absolute";
-    stats.domElement.style.bottom = "0px";
-    document.body.appendChild(stats.domElement);
+        // creates a new statistics element to display frame rate
+        // information and adds it to the bottom of the screen
+        state.stats = new Stats();
+        state.stats.domElement.style.position = "absolute";
+        state.stats.domElement.style.bottom = "0px";
+        document.body.appendChild(state.stats.domElement);
 
-    // registers the renderer for the resize of the window
-    // so that the ratios are maintained and the camera position
-    THREEx.WindowResize(state.renderer, state.camera);
+        // registers the renderer for the resize of the window
+        // so that the ratios are maintained and the camera position
+        THREEx.WindowResize(state.renderer, state.camera);
 
-    // creates the drop sprite value and add it to the current scene
-    // object (in order to be able to drop it)
-    var dropMaterial = REVISION >= 54 ? new THREE.SpriteMaterial({
-                map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
-                useScreenCoordinates : false
-            })
-            : {
-                map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
-                useScreenCoordinates : false
-            };
-    var dropSprite = new THREE.Sprite(dropMaterial);
-    dropSprite.scale.set(1.0, 1.0, 0.0);
-    state.scene.add(dropSprite);
+        // creates the drop sprite value and add it to the current scene
+        // object (in order to be able to drop it)
+        var dropMaterial = REVISION >= 54 ? new THREE.SpriteMaterial({
+                    map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
+                    useScreenCoordinates : false
+                })
+                : {
+                    map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
+                    useScreenCoordinates : false
+                };
+        state.dropSprite = new THREE.Sprite(dropMaterial);
+        state.dropSprite.scale.set(1.0, 1.0, 0.0);
+        state.scene.add(state.dropSprite);
 
-    // updates the camera position so that it positions itself
-    // at some distance from the scene
-    state.camera.position.z = REVISION >= 53 ? 1.5 : 400.0;
+        // updates the camera position so that it positions itself
+        // at some distance from the scene
+        state.camera.position.z = REVISION >= 53 ? 1.5 : 400.0;
+
+        // registers the various event handlers associated with the
+        // current scene state
+        register();
+    };
 
     var register = function() {
         var _document = jQuery(document);
@@ -114,6 +121,56 @@ jQuery(document).ready(function() {
         _document.bind("mousemove", onDocumentMouseMove);
         _document.bind("mousewheel", onDocumentMouseWheel);
         _document.bind("DOMMouseScroll", onDocumentMouseWheel);
+    };
+
+    var loadImage = function(src) {
+        var image = document.createElement("img");
+        state.material.map.image = image;
+        state.material.wireframe = false;
+        state.material.map.flipY = false;
+
+        image.onload = function() {
+            state.material.map.needsUpdate = true;
+        };
+
+        image.src = src;
+    };
+
+    var render = function() {
+        // requires the browser to repaint the area refered by the
+        // render object (upad operation)
+        requestAnimationFrame(render);
+
+        // retrieves the current frame rendering time (to be used
+        // as reference for sprite animation) and calculates the
+        // delta time from the old time and the sets the current
+        // time as the "new" old time value
+        var date = new Date();
+        var time = date.getTime();
+        state.delta = time - state.oldTime;
+        state.oldTime = time;
+
+        // in case the drop sprite is defined must run the pulse
+        // animation so that it grows and shrinks
+        if (state.dropSprite) {
+            var pulse = Math.sin(time / 200) / 40;
+            state.dropSprite.scale.set(0.5 + pulse, 0.5 + pulse, 0);
+        }
+
+        // in case the mesh is defined must update its animation
+        // and rotate it arround the y axis
+        if (state.mesh) {
+            state.mesh.updateAnimation(state.delta);
+            state.mesh.rotation.y += 0.01;
+        }
+
+        // schedules the render of the current scene using
+        // the provided camera reference
+        state.renderer.render(state.scene, state.camera);
+
+        // runs the update operation on the statistics object
+        // so that new values should appear
+        state.stats.update();
     };
 
     var onDocumentDrop = function(event) {
@@ -171,22 +228,23 @@ jQuery(document).ready(function() {
 
                         // in case the drop sprite is set must remove it from
                         // the scene and delete the object
-                        if (dropSprite) {
-                            state.scene.remove(dropSprite);
-                            delete dropSprite;
+                        if (state.dropSprite) {
+                            state.scene.remove(state.dropSprite);
+                            delete state.dropSprite;
                         }
 
                         // updates the camera position so that it positions itself
                         // at some distance from the scene
                         state.camera.position.z = 80;
 
-                        material = new THREE.MeshBasicMaterial({
+                        state.material = new THREE.MeshBasicMaterial({
                                     map : new THREE.Texture(),
                                     wireframe : true,
                                     morphTargets : true
                                 });
 
-                        state.mesh = new THREE.MorphAnimMesh(geometry, material);
+                        state.mesh = new THREE.MorphAnimMesh(geometry,
+                                state.material);
                         state.mesh.scale.set(1.0, 1.0, 1.0);
                         state.mesh.duration = 1000 * (model.info.frames / 10);
                         state.mesh.geometry.computeMorphNormals();
@@ -272,58 +330,11 @@ jQuery(document).ready(function() {
         event.preventDefault();
     };
 
-    var loadImage = function(src) {
-        var image = document.createElement('img');
-        material.map.image = image;
-        material.wireframe = false;
-        material.map.flipY = false;
-
-        image.onload = function() {
-            material.map.needsUpdate = true;
-        };
-
-        image.src = src;
-    };
-
-    var render = function() {
-        // requires the browser to repaint the area refered by the
-        // render object (upad operation)
-        requestAnimationFrame(render);
-
-        // retrieves the current frame rendering time (to be used
-        // as reference for sprite animation) and calculates the
-        // delta time from the old time and the sets the current
-        // time as the "new" old time value
-        var date = new Date();
-        var time = date.getTime();
-        state.delta = time - state.oldTime;
-        state.oldTime = time;
-
-        // in case the drop sprite is defined must run the pulse
-        // animation so that it grows and shrinks
-        if (dropSprite) {
-            var pulse = Math.sin(time / 200) / 40;
-            dropSprite.scale.set(0.5 + pulse, 0.5 + pulse, 0);
-        }
-
-        // in case the mesh is defined must update its animation
-        // and rotate it arround the y axis
-        if (state.mesh) {
-            state.mesh.updateAnimation(state.delta);
-            state.mesh.rotation.y += 0.01;
-        }
-
-        // schedules the render of the current scene using
-        // the provided camera reference
-        state.renderer.render(state.scene, state.camera);
-
-        // runs the update operation on the statistics object
-        // so that new values should appear
-        stats.update();
-    };
+    // builds the complete scene, contructing all the elements
+    // contained in it
+    build();
 
     // calls the render operation so that the render process may
     // start (game start function)
-    register();
     render();
 });
