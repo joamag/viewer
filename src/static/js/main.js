@@ -112,8 +112,12 @@ jQuery(document).ready(function() {
     };
 
     var register = function() {
+        // retrieves the reference to the top level
+        // document element for the event registration
         var _document = jQuery(document);
 
+        // registers for the handling of the various events
+        // occurring over the document element
         _document.bind("drop", onDocumentDrop);
         _document.bind("dragover", onDocumentDragOver);
         _document.bind("dragleave", onDocumentLeave);
