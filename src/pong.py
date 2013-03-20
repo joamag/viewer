@@ -38,6 +38,7 @@ __license__ = "GNU General Public License (GPL), Version 3"
 """ The license for the module """
 
 import flask
+
 import quorum
 
 app = flask.Flask(__name__)
