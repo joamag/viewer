@@ -37,10 +37,11 @@ __copyright__ = "Copyright (c) 2008-2012 Hive Solutions Lda."
 __license__ = "GNU General Public License (GPL), Version 3"
 """ The license for the module """
 
-import os
 import flask
+import quorum
 
 app = flask.Flask(__name__)
+quorum.load(app)
 
 @app.route("/", methods = ("GET",))
 @app.route("/index", methods = ("GET",))
@@ -50,34 +51,5 @@ def index():
         link = "home"
     )
 
-def run_waitress():
-    import waitress
-
-    # sets the debug control in the application
-    # then checks the current environment variable
-    # for the target port for execution (external)
-    # and then start running it (continuous loop)
-    debug = os.environ.get("DEBUG", False) and True or False
-    port = int(os.environ.get("PORT", 5000))
-    app.debug = debug
-    waitress.serve(app, host = "0.0.0.0", port = port)
-
-def run():
-    # sets the debug control in the application
-    # then checks the current environment variable
-    # for the target port for execution (external)
-    # and then start running it (continuous loop)
-    debug = os.environ.get("DEBUG", False) and True or False
-    reloader = os.environ.get("RELOADER", False) and True or False
-    port = int(os.environ.get("PORT", 5000))
-    app.debug = debug
-    app.run(
-        use_debugger = debug,
-        debug = debug,
-        use_reloader = reloader,
-        host = "0.0.0.0",
-        port = port
-    )
-
 if __name__ == "__main__":
-    run_waitress()
+    quorum.run_waitress()
