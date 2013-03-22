@@ -41,8 +41,7 @@ import flask
 
 import quorum
 
-app = flask.Flask(__name__)
-quorum.load(app)
+app = quorum.load(name = __name__)
 
 @app.route("/", methods = ("GET",))
 @app.route("/index", methods = ("GET",))
