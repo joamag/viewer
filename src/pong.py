@@ -52,4 +52,4 @@ def index():
     )
 
 if __name__ == "__main__":
-    quorum.run_waitress()
+    quorum.run(server = "waitress")
