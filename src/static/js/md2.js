@@ -209,6 +209,10 @@ THREEx.loadMd2 = function(file, filename, precision) {
         uvs : [uvs],
         faces : faces
     };
+
+    // converts the model structure into a json based string
+    // so that it may be stored into a secondary storage as
+    // a linear buffer of bytes (as expected)
     var modelS = JSON.stringify(model);
 
     // updates the information object to be returned
