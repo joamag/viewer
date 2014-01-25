@@ -141,7 +141,7 @@ THREEx.loadMd2 = function(file, filename, precision) {
     for (var index = 0; index < header.num_frames; index++) {
         var frame = {};
         frame.vertices = [];
-        frame.name = "";
+        frame.name = "frame-" + String(index);
         frame.scale = {};
         frame.translate = {};
 

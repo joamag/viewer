@@ -263,12 +263,18 @@ jQuery(document).ready(function() {
                         wireframe : true
                     });
 
-            // creates a new mesh with the computed
-            // geometry and computes its normal values
+            // runs the computation of the various geometry values
+            // so that it gets properly computed and ready to be used
+            // in the mesh that is going to be created
+            state.geometry.computeVertexNormals();
+            state.geometry.computeFaceNormals();
+            state.geometry.computeMorphNormals();
+
+            // creates a new mesh with the computed mesh and then
+            // defines both the scale and the duration of it
             state.mesh = new THREE.MorphAnimMesh(state.geometry, state.material);
             state.mesh.scale.set(1.0, 1.0, 1.0);
             state.mesh.duration = 1000 * (model.info.frames / 10);
-            state.mesh.geometry.computeMorphNormals();
 
             // calculates the bounding box for the geomtery
             // and then uses it's value to position the mesh
