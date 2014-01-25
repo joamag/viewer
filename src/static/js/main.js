@@ -280,8 +280,8 @@ jQuery(document).ready(function() {
             // and then uses it's value to position the mesh
             // in the center of the screen
             state.mesh.geometry.computeBoundingBox();
-            state.mesh.position.y -= state.mesh.geometry.boundingBox.max.y
-                    / 2.0;
+            state.mesh.position.z = 0;
+            state.mesh.position.y -= state.geometry.boundingBox.max.y / 2.0;
 
             // adds the "just" created mesh to current scene so that
             // it appears in the complete composition
