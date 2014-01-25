@@ -208,25 +208,23 @@ jQuery(document).ready(function() {
             // create a json based representation of the model
             var model = THREEx.loadMd2(event.target.result, filename);
 
-            // ------------------  START OF UPDATE
-
+            // creates the html code that is going to provide information
+            // to the user about either the model information or the status
+            // of the loading of the model (in case there was a problem)
             var statusString = "<hr><b>Status:</b> " + model.info.status;
             if (model.info.status == "Success") {
                 statusString += "<br><b>Faces:</b> " + model.info.faces;
                 statusString += "<br><b>Vertices:</b> " + model.info.vertices;
                 statusString += "<br><b>Frames:</b> " + model.info.frames;
-                statusString += "<br><br><form id='save'><b>Save file:</b><br><input type='text' size='8' align='right' value='"
-                        + filename
-                        + "' id='filename'/>.js&nbsp;<input type='submit' onclick='saveFile()' value=' Save '/><br></form><br>(Chrome will download it,<br>&nbsp;Firefox will open it in a new window.<br>&nbsp;Then choose to 'Save As')<hr>";
             } else {
-                statusString = "<hr><b>Status:</b> <font color='#cc0000'>"
+                statusString = "<hr><b>Status:</b> <font color=\"#cc0000\">"
                         + model.info.status + "</font><hr>";
             }
             document.getElementById("status").innerHTML = statusString;
             document.getElementById("info").style.display = "block";
 
-            /// --------------------- END OF UPDATE ----
-
+            // in case the result of the loading of the model is not success
+            // returns immedietly as there's been a loading problem
             if (model.info.status != "Success") {
                 return;
             }
