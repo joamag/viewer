@@ -217,6 +217,7 @@ jQuery(document).ready(function() {
             // of the loading of the model (in case there was a problem)
             var statusString = "<hr><b>Status:</b> " + model.info.status;
             if (model.info.status == "Success") {
+                statusString += "<br><b>Name:</b> " + model.model.metadata.filename;
                 statusString += "<br><b>Faces:</b> " + model.info.faces;
                 statusString += "<br><b>Vertices:</b> " + model.info.vertices;
                 statusString += "<br><b>Frames:</b> " + model.info.frames;

@@ -192,6 +192,7 @@ THREEx.loadMd2 = function(file, filename, precision) {
     var model = {
         metadata : {
             formatVersion : 3,
+            filename : filename,
             description : "Model converted from " + filename
                     + ".md2 using md2 to json converter."
         },
@@ -209,6 +210,11 @@ THREEx.loadMd2 = function(file, filename, precision) {
         uvs : [uvs],
         faces : faces
     };
+
+    // stores the original model in the return object that
+    // is going to be returned to the caller method this way
+    // it's possible to retrieve the original information
+    returnObject.model = model;
 
     // converts the model structure into a json based string
     // so that it may be stored into a secondary storage as
