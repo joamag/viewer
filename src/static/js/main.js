@@ -218,17 +218,18 @@ jQuery(document).ready(function() {
             // creates the html code that is going to provide information
             // to the user about either the model information or the status
             // of the loading of the model (in case there was a problem)
-            var statusString = "<hr><b>Status:</b> " + model.info.status;
+            var statusString = "<b>Status: </b>" + model.info.status + "<hr/>";
             if (model.info.status == "Success") {
-                statusString += "<br><b>Name:</b> " + model.model.metadata.filename;
+                statusString += "<b>Name:</b> " + model.model.metadata.filename;
                 statusString += "<br><b>Faces:</b> " + model.info.faces;
                 statusString += "<br><b>Vertices:</b> " + model.info.vertices;
                 statusString += "<br><b>Frames:</b> " + model.info.frames;
             } else {
-                statusString = "<hr><b>Status:</b> <font color=\"#cc0000\">"
-                        + model.info.status + "</font><hr>";
+                statusString = "<b>Status:</b> <font color=\"#cc0000\">"
+                        + model.info.status + "</font><hr/>";
             }
             document.getElementById("status").innerHTML = statusString;
+            document.getElementById("status").style.display = "block";
             document.getElementById("info").style.display = "block";
 
             // in case the result of the loading of the model is not success
