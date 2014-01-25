@@ -202,6 +202,9 @@ jQuery(document).ready(function() {
         // handler for the load event on it
         var reader = new FileReader();
         reader.onload = function(event) {
+            // in case the current loading mode is one then this is the
+            // loading of a texture image and so the proper logic must
+            // be run, returning the control flow immediately after
             if (state.mode == 1) {
                 loadImage(event.target.result);
                 return;
