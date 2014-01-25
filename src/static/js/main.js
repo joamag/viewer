@@ -49,6 +49,7 @@ jQuery(document).ready(function() {
         scene : null,
         camera : null,
         renderer : null,
+        geometry : null,
         material : null,
         mesh : null,
         mode : 0,
@@ -70,10 +71,8 @@ jQuery(document).ready(function() {
         // creates the webgl renderer object and starts it with
         // the size of the current window and appends the renderer
         // element to the document body
-        state.renderer = new THREE.WebGLRenderer({
-                    clearColor : 0x666666,
-                    clearAlpha : 1.0
-                });
+        state.renderer = new THREE.WebGLRenderer();
+        state.renderer.setClearColor(0x222222, 1.0);
         state.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(state.renderer.domElement);
 
@@ -129,11 +128,16 @@ jQuery(document).ready(function() {
 
     var loadImage = function(src) {
         var image = document.createElement("img");
-        state.material.map.image = image;
-        state.material.wireframe = false;
+
+        state.material.map = new THREE.Texture(image);
         state.material.map.flipY = false;
+        state.material.wireframe = false;
+        state.material.morphTargets = true;
 
         image.onload = function() {
+            state.material.needsUpdate = true;
+            state.geometry.buffersNeedUpdate = true;
+            state.geometry.uvsNeedUpdate = true;
             state.material.map.needsUpdate = true;
         };
 
@@ -200,7 +204,8 @@ jQuery(document).ready(function() {
             }
 
             // loads the md2 model file from the provided string that
-            // should contain the contents of its source file
+            // should contain the contents of its source file, this should
+            // create a json based representation of the model
             var model = THREEx.loadMd2(event.target.result, filename);
 
             // ------------------  START OF UPDATE
@@ -230,49 +235,51 @@ jQuery(document).ready(function() {
             // start the loading of the model that was created
             var loader = new THREE.JSONLoader();
             var modelL = JSON.parse(model.string);
-            loader.createModel(modelL, function(geometry) {
-                        // in case there's a mesh loaded must remove it from
-                        // the scene not to be displayed anymore
-                        state.mesh && state.scene.remove(state.mesh);
+            var geometry = loader.parse(modelL);
 
-                        // in case the drop sprite is set must remove it from
-                        // the scene and delete the object
-                        if (state.dropSprite) {
-                            state.scene.remove(state.dropSprite);
-                            delete state.dropSprite;
-                        }
+            // in case there's a mesh loaded must remove it from
+            // the scene not to be displayed anymore
+            state.mesh && state.scene.remove(state.mesh);
 
-                        // updates the camera position so that it positions itself
-                        // at some distance from the scene
-                        state.camera.position.z = 80;
+            // in case the drop sprite is set must remove it from
+            // the scene and delete the object
+            if (state.dropSprite) {
+                state.scene.remove(state.dropSprite);
+                delete state.dropSprite;
+            }
 
-                        // creates a new material for the texture to be mapped in
-                        // the mesh, this will be loaded with the image later
-                        state.material = new THREE.MeshBasicMaterial({
-                                    map : new THREE.Texture(),
-                                    wireframe : true,
-                                    morphTargets : true
-                                });
+            // updates the geomtry reference in the state object with
+            // the currently loaded geometry note that the map must be
+            // resolve one more level
+            state.geometry = geometry.geometry;
 
-                        // creates a new mesh with the computed
-                        // geometry and computes its normal values
-                        state.mesh = new THREE.MorphAnimMesh(geometry,
-                                state.material);
-                        state.mesh.scale.set(1.0, 1.0, 1.0);
-                        state.mesh.duration = 1000 * (model.info.frames / 10);
-                        state.mesh.geometry.computeMorphNormals();
+            // updates the camera position so that it positions itself
+            // at some distance from the scene
+            state.camera.position.z = 80;
 
-                        // calculates the bounding box for the geomtery
-                        // and then uses it's value to position the mesh
-                        // in the center of the screen
-                        state.mesh.geometry.computeBoundingBox();
-                        state.mesh.position.y -= state.mesh.geometry.boundingBox.max.y
-                                / 2.0;
-
-                        // adds the "just" created mesh to current scene so that
-                        // it appears in the complete composition
-                        state.scene.add(state.mesh);
+            // creates a new material for the texture to be mapped in
+            // the mesh, this will be loaded with the image later
+            state.material = new THREE.MeshBasicMaterial({
+                        wireframe : true
                     });
+
+            // creates a new mesh with the computed
+            // geometry and computes its normal values
+            state.mesh = new THREE.MorphAnimMesh(state.geometry, state.material);
+            state.mesh.scale.set(1.0, 1.0, 1.0);
+            state.mesh.duration = 1000 * (model.info.frames / 10);
+            state.mesh.geometry.computeMorphNormals();
+
+            // calculates the bounding box for the geomtery
+            // and then uses it's value to position the mesh
+            // in the center of the screen
+            state.mesh.geometry.computeBoundingBox();
+            state.mesh.position.y -= state.mesh.geometry.boundingBox.max.y
+                    / 2.0;
+
+            // adds the "just" created mesh to current scene so that
+            // it appears in the complete composition
+            state.scene.add(state.mesh);
         };
 
         // retrieves both the extension and the name of the
@@ -309,7 +316,9 @@ jQuery(document).ready(function() {
             return;
         }
 
-        var isDefined = mouseX != null && mouseY != null;
+        var isDefined = typeof mouseX !== "undefined"
+                && typeof mouseY !== "undefined";
+        isDefined = isDefined && mouseX != null && mouseY != null;
         if (isDefined && state.mesh) {
             var deltaX = (event.pageX - mouseX) / 10;
             var deltaY = (event.pageY - mouseY) / 10;
