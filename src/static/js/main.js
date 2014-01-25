@@ -132,7 +132,6 @@ jQuery(document).ready(function() {
         state.material.map = new THREE.Texture(image);
         state.material.map.flipY = false;
         state.material.wireframe = false;
-        state.material.morphTargets = true;
 
         image.onload = function() {
             state.material.needsUpdate = true;
@@ -182,6 +181,11 @@ jQuery(document).ready(function() {
     };
 
     var onDocumentDrop = function(event) {
+        // retrieves the current user agent value and tries to
+        // verify if the current browser is chrome based
+        var userAgent = navigator.userAgent.toLowerCase();
+        var isChrome = userAgent.indexOf("chrome") != -1;
+
         // sets the event as the original event, retrieved
         // from the event structure
         var _event = event.originalEvent;
@@ -258,7 +262,8 @@ jQuery(document).ready(function() {
             // creates a new material for the texture to be mapped in
             // the mesh, this will be loaded with the image later
             state.material = new THREE.MeshBasicMaterial({
-                        wireframe : true
+                        wireframe : true,
+                        morphTargets : !isChrome
                     });
 
             // runs the computation of the various geometry values
