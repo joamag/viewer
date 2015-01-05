@@ -1,5 +1,5 @@
 // Hive Three Extensions
-// Copyright (C) 2008-2012 Hive Solutions Lda.
+// Copyright (C) 2008-2015 Hive Solutions Lda.
 //
 // This file is part of Hive Three Extensions.
 //
