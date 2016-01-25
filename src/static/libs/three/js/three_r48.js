@@ -11438,7 +11438,7 @@ THREE.ColladaLoader = function() {
                 default:
                     console.log(b.nodeName)
             }
-            a = [];
+        a = [];
         c = 1E6;
         b = -1E6;
         for (var d in Ga)
@@ -12346,7 +12346,7 @@ THREE.ColladaLoader = function() {
                                         this.aspect_ratio = g.textContent
                                 }
                             }
-                        return this
+            return this
         };
     C.prototype.parse = function(a) {
         this.url =

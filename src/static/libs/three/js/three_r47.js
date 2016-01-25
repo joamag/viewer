@@ -11083,7 +11083,7 @@ THREE.ColladaLoader = function() {
                 default:
                     console.log(b.nodeName)
             }
-            a = [];
+        a = [];
         c = 1E6;
         b = -1E6;
         for (var d in la)

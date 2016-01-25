@@ -10856,10 +10856,10 @@ THREE.MeshPhongMaterial.prototype.clone = function() {
  *
  * parameters = {
  *  opacity: <float>,
- 
+
  *  blending: THREE.NormalBlending,
  *  depthTest: <bool>,
- 
+
  *  wireframe: <boolean>,
  *  wireframeLinewidth: <float>
  * }
@@ -10895,11 +10895,11 @@ THREE.MeshDepthMaterial.prototype.clone = function() {
  *
  * parameters = {
  *  opacity: <float>,
- 
+
  *  shading: THREE.FlatShading,
  *  blending: THREE.NormalBlending,
  *  depthTest: <bool>,
- 
+
  *  wireframe: <boolean>,
  *  wireframeLinewidth: <float>
  * }
@@ -30292,36 +30292,43 @@ THREE.FirstPersonControls = function(object, domElement) {
             case 38:
                 /*up*/
             case 87:
-                /*W*/ this.moveForward = true;
+                /*W*/
+                this.moveForward = true;
                 break;
 
             case 37:
                 /*left*/
             case 65:
-                /*A*/ this.moveLeft = true;
+                /*A*/
+                this.moveLeft = true;
                 break;
 
             case 40:
                 /*down*/
             case 83:
-                /*S*/ this.moveBackward = true;
+                /*S*/
+                this.moveBackward = true;
                 break;
 
             case 39:
                 /*right*/
             case 68:
-                /*D*/ this.moveRight = true;
+                /*D*/
+                this.moveRight = true;
                 break;
 
             case 82:
-                /*R*/ this.moveUp = true;
+                /*R*/
+                this.moveUp = true;
                 break;
             case 70:
-                /*F*/ this.moveDown = true;
+                /*F*/
+                this.moveDown = true;
                 break;
 
             case 81:
-                /*Q*/ this.freeze = !this.freeze;
+                /*Q*/
+                this.freeze = !this.freeze;
                 break;
 
         }
@@ -30335,32 +30342,38 @@ THREE.FirstPersonControls = function(object, domElement) {
             case 38:
                 /*up*/
             case 87:
-                /*W*/ this.moveForward = false;
+                /*W*/
+                this.moveForward = false;
                 break;
 
             case 37:
                 /*left*/
             case 65:
-                /*A*/ this.moveLeft = false;
+                /*A*/
+                this.moveLeft = false;
                 break;
 
             case 40:
                 /*down*/
             case 83:
-                /*S*/ this.moveBackward = false;
+                /*S*/
+                this.moveBackward = false;
                 break;
 
             case 39:
                 /*right*/
             case 68:
-                /*D*/ this.moveRight = false;
+                /*D*/
+                this.moveRight = false;
                 break;
 
             case 82:
-                /*R*/ this.moveUp = false;
+                /*R*/
+                this.moveUp = false;
                 break;
             case 70:
-                /*F*/ this.moveDown = false;
+                /*F*/
+                this.moveDown = false;
                 break;
 
         }
@@ -30910,49 +30923,62 @@ THREE.FlyControls = function(object, domElement) {
         switch (event.keyCode) {
 
             case 16:
-                /* shift */ this.movementSpeedMultiplier = .1;
+                /* shift */
+                this.movementSpeedMultiplier = .1;
                 break;
 
             case 87:
-                /*W*/ this.moveState.forward = 1;
+                /*W*/
+                this.moveState.forward = 1;
                 break;
             case 83:
-                /*S*/ this.moveState.back = 1;
+                /*S*/
+                this.moveState.back = 1;
                 break;
 
             case 65:
-                /*A*/ this.moveState.left = 1;
+                /*A*/
+                this.moveState.left = 1;
                 break;
             case 68:
-                /*D*/ this.moveState.right = 1;
+                /*D*/
+                this.moveState.right = 1;
                 break;
 
             case 82:
-                /*R*/ this.moveState.up = 1;
+                /*R*/
+                this.moveState.up = 1;
                 break;
             case 70:
-                /*F*/ this.moveState.down = 1;
+                /*F*/
+                this.moveState.down = 1;
                 break;
 
             case 38:
-                /*up*/ this.moveState.pitchUp = 1;
+                /*up*/
+                this.moveState.pitchUp = 1;
                 break;
             case 40:
-                /*down*/ this.moveState.pitchDown = 1;
+                /*down*/
+                this.moveState.pitchDown = 1;
                 break;
 
             case 37:
-                /*left*/ this.moveState.yawLeft = 1;
+                /*left*/
+                this.moveState.yawLeft = 1;
                 break;
             case 39:
-                /*right*/ this.moveState.yawRight = 1;
+                /*right*/
+                this.moveState.yawRight = 1;
                 break;
 
             case 81:
-                /*Q*/ this.moveState.rollLeft = 1;
+                /*Q*/
+                this.moveState.rollLeft = 1;
                 break;
             case 69:
-                /*E*/ this.moveState.rollRight = 1;
+                /*E*/
+                this.moveState.rollRight = 1;
                 break;
 
         }
@@ -30967,49 +30993,62 @@ THREE.FlyControls = function(object, domElement) {
         switch (event.keyCode) {
 
             case 16:
-                /* shift */ this.movementSpeedMultiplier = 1;
+                /* shift */
+                this.movementSpeedMultiplier = 1;
                 break;
 
             case 87:
-                /*W*/ this.moveState.forward = 0;
+                /*W*/
+                this.moveState.forward = 0;
                 break;
             case 83:
-                /*S*/ this.moveState.back = 0;
+                /*S*/
+                this.moveState.back = 0;
                 break;
 
             case 65:
-                /*A*/ this.moveState.left = 0;
+                /*A*/
+                this.moveState.left = 0;
                 break;
             case 68:
-                /*D*/ this.moveState.right = 0;
+                /*D*/
+                this.moveState.right = 0;
                 break;
 
             case 82:
-                /*R*/ this.moveState.up = 0;
+                /*R*/
+                this.moveState.up = 0;
                 break;
             case 70:
-                /*F*/ this.moveState.down = 0;
+                /*F*/
+                this.moveState.down = 0;
                 break;
 
             case 38:
-                /*up*/ this.moveState.pitchUp = 0;
+                /*up*/
+                this.moveState.pitchUp = 0;
                 break;
             case 40:
-                /*down*/ this.moveState.pitchDown = 0;
+                /*down*/
+                this.moveState.pitchDown = 0;
                 break;
 
             case 37:
-                /*left*/ this.moveState.yawLeft = 0;
+                /*left*/
+                this.moveState.yawLeft = 0;
                 break;
             case 39:
-                /*right*/ this.moveState.yawRight = 0;
+                /*right*/
+                this.moveState.yawRight = 0;
                 break;
 
             case 81:
-                /*Q*/ this.moveState.rollLeft = 0;
+                /*Q*/
+                this.moveState.rollLeft = 0;
                 break;
             case 69:
-                /*E*/ this.moveState.rollRight = 0;
+                /*E*/
+                this.moveState.rollRight = 0;
                 break;
 
         }
@@ -31376,41 +31415,49 @@ THREE.RollControls = function(object, domElement) {
             case 38:
                 /*up*/
             case 87:
-                /*W*/ forwardSpeed = 1;
+                /*W*/
+                forwardSpeed = 1;
                 break;
 
             case 37:
                 /*left*/
             case 65:
-                /*A*/ sideSpeed = -1;
+                /*A*/
+                sideSpeed = -1;
                 break;
 
             case 40:
                 /*down*/
             case 83:
-                /*S*/ forwardSpeed = -1;
+                /*S*/
+                forwardSpeed = -1;
                 break;
 
             case 39:
                 /*right*/
             case 68:
-                /*D*/ sideSpeed = 1;
+                /*D*/
+                sideSpeed = 1;
                 break;
 
             case 81:
-                /*Q*/ doRoll = true;
+                /*Q*/
+                doRoll = true;
                 rollDirection = 1;
                 break;
             case 69:
-                /*E*/ doRoll = true;
+                /*E*/
+                doRoll = true;
                 rollDirection = -1;
                 break;
 
             case 82:
-                /*R*/ upSpeed = 1;
+                /*R*/
+                upSpeed = 1;
                 break;
             case 70:
-                /*F*/ upSpeed = -1;
+                /*F*/
+                upSpeed = -1;
                 break;
 
         }
@@ -31424,39 +31471,47 @@ THREE.RollControls = function(object, domElement) {
             case 38:
                 /*up*/
             case 87:
-                /*W*/ forwardSpeed = 0;
+                /*W*/
+                forwardSpeed = 0;
                 break;
 
             case 37:
                 /*left*/
             case 65:
-                /*A*/ sideSpeed = 0;
+                /*A*/
+                sideSpeed = 0;
                 break;
 
             case 40:
                 /*down*/
             case 83:
-                /*S*/ forwardSpeed = 0;
+                /*S*/
+                forwardSpeed = 0;
                 break;
 
             case 39:
                 /*right*/
             case 68:
-                /*D*/ sideSpeed = 0;
+                /*D*/
+                sideSpeed = 0;
                 break;
 
             case 81:
-                /*Q*/ doRoll = false;
+                /*Q*/
+                doRoll = false;
                 break;
             case 69:
-                /*E*/ doRoll = false;
+                /*E*/
+                doRoll = false;
                 break;
 
             case 82:
-                /*R*/ upSpeed = 0;
+                /*R*/
+                upSpeed = 0;
                 break;
             case 70:
-                /*F*/ upSpeed = 0;
+                /*F*/
+                upSpeed = 0;
                 break;
 
         }

@@ -8915,7 +8915,7 @@ THREE.WebGLRenderer = function(a) {
                                                         pa.array[va + 3] = Va.w;
                                                         va = va + 4
                                                     }
-                                                i.bindBuffer(i.ARRAY_BUFFER, pa.buffer);
+                                i.bindBuffer(i.ARRAY_BUFFER, pa.buffer);
                                 i.bufferData(i.ARRAY_BUFFER, pa.array, Zc)
                             }
                         }
