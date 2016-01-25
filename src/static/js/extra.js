@@ -35,22 +35,21 @@ function init() {
 
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth
-                    / window.innerHeight, 1, 10000);
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.z = 400;
     scene.add(camera);
 
     dropSprite = new THREE.Sprite({
-                map : THREE.ImageUtils.loadTexture("drop_gfx.png"),
-                useScreenCoordinates : false
-            });
+        map: THREE.ImageUtils.loadTexture("drop_gfx.png"),
+        useScreenCoordinates: false
+    });
     dropSprite.scale.set(0.5, 0.5, 0);
     scene.add(dropSprite);
 
     try {
         renderer = new THREE.WebGLRenderer({
-                    antialias : true
-                });
+            antialias: true
+        });
         renderer.setClearColorHex(0x666666, 1);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.autoClear = true;
@@ -85,12 +84,12 @@ function onDocumentDrop(event) {
             statusString += "<BR><B>Faces:</B> " + md.info.faces;
             statusString += "<BR><B>Vertices:</B> " + md.info.vertices;
             statusString += "<BR><B>Frames:</B> " + md.info.frames;
-            statusString += "<BR><BR><form id='save'><B>Save file:</B><BR><input type='text' size='8' align='right' value='"
-                    + filename
-                    + "' id='filename'/>.js&nbsp;<input type='submit' onclick='saveFile()' value=' Save '/><BR></form><BR>(Chrome will download it,<BR>&nbsp;Firefox will open it in a new window.<BR>&nbsp;Then choose to 'Save As')<HR>";
+            statusString +=
+                "<BR><BR><form id='save'><B>Save file:</B><BR><input type='text' size='8' align='right' value='" +
+                filename +
+                "' id='filename'/>.js&nbsp;<input type='submit' onclick='saveFile()' value=' Save '/><BR></form><BR>(Chrome will download it,<BR>&nbsp;Firefox will open it in a new window.<BR>&nbsp;Then choose to 'Save As')<HR>";
         } else {
-            statusString = "<HR><B>Status:</B> <font color='#cc0000'>"
-                    + md.info.status + "</font><HR>";
+            statusString = "<HR><B>Status:</B> <font color='#cc0000'>" + md.info.status + "</font><HR>";
         }
         document.getElementById('status').innerHTML = statusString;
 
@@ -104,28 +103,28 @@ function onDocumentDrop(event) {
 
         loader.createModel(JSON.parse(md.string), function(geometry) {
 
-                    if (mesh) {
-                        scene.remove(mesh);
-                    }
-                    if (dropSprite) {
-                        scene.remove(dropSprite);
-                        delete dropSprite;
-                    }
+            if (mesh) {
+                scene.remove(mesh);
+            }
+            if (dropSprite) {
+                scene.remove(dropSprite);
+                delete dropSprite;
+            }
 
-                    material = new THREE.MeshBasicMaterial({
-                                color : 0xffffff,
-                                map : new THREE.Texture(),
-                                wireframe : true,
-                                morphTargets : true
-                            });
+            material = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                map: new THREE.Texture(),
+                wireframe: true,
+                morphTargets: true
+            });
 
-                    mesh = new THREE.MorphAnimMesh(geometry, material);
-                    mesh.rotation.y = -Math.PI / 2;
-                    mesh.scale.set(5, 5, 5);
-                    mesh.duration = 1000 * (md.info.frames / 10);
+            mesh = new THREE.MorphAnimMesh(geometry, material);
+            mesh.rotation.y = -Math.PI / 2;
+            mesh.scale.set(5, 5, 5);
+            mesh.duration = 1000 * (md.info.frames / 10);
 
-                    scene.add(mesh);
-                });
+            scene.add(mesh);
+        });
 
     };
 

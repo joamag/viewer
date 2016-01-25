@@ -55,8 +55,8 @@ THREEx.loadMd2 = function(file, filename, precision) {
     var string = "";
     var info = {};
     var returnObject = {
-        string : string,
-        info : info
+        string: string,
+        info: info
     };
 
     // creates the binary file reader from the file
@@ -180,8 +180,8 @@ THREEx.loadMd2 = function(file, filename, precision) {
     for (var index = 0; index < frames.length; index++) {
         var frame = frames[index];
         var morphTarget = {
-            name : frame.name,
-            vertices : frame.vertices
+            name: frame.name,
+            vertices: frame.vertices
         };
         morphTargets.push(morphTarget);
     }
@@ -190,25 +190,24 @@ THREEx.loadMd2 = function(file, filename, precision) {
     // of data that is mandatory for the json model then
     // serializes it into a json string model
     var model = {
-        metadata : {
-            formatVersion : 3,
-            filename : filename,
-            description : "Model converted from " + filename
-                    + ".md2 using md2 to json converter."
+        metadata: {
+            formatVersion: 3,
+            filename: filename,
+            description: "Model converted from " + filename + ".md2 using md2 to json converter."
         },
-        scale : 1.0,
-        materials : [{
-                    DbgColor : 15658734,
-                    DbgIndex : 0,
-                    DbgName : "md2_material"
-                }],
-        vertices : frames[0].vertices,
-        morphTargets : morphTargets,
-        morphColors : [],
-        normals : [],
-        colors : [],
-        uvs : [uvs],
-        faces : faces
+        scale: 1.0,
+        materials: [{
+            DbgColor: 15658734,
+            DbgIndex: 0,
+            DbgName: "md2_material"
+        }],
+        vertices: frames[0].vertices,
+        morphTargets: morphTargets,
+        morphColors: [],
+        normals: [],
+        colors: [],
+        uvs: [uvs],
+        faces: faces
     };
 
     // stores the original model in the return object that

@@ -27,17 +27,23 @@
 var THREEx = THREEx || {};
 
 THREEx.Stats = function() {
-    var startTime = Date.now(), prevTime = startTime;
-    var ms = 0, msMin = Infinity, msMax = 0;
-    var fps = 0, fpsMin = Infinity, fpsMax = 0;
-    var frames = 0, mode = 0;
+    var startTime = Date.now(),
+        prevTime = startTime;
+    var ms = 0,
+        msMin = Infinity,
+        msMax = 0;
+    var fps = 0,
+        fpsMin = Infinity,
+        fpsMax = 0;
+    var frames = 0,
+        mode = 0;
 
     var container = document.createElement("div");
     container.id = "stats";
     container.addEventListener("mousedown", function(event) {
-                event.preventDefault();
-                setMode(++mode % 2)
-            }, false);
+        event.preventDefault();
+        setMode(++mode % 2)
+    }, false);
     container.style.cssText = "width:80px;opacity:0.9;cursor:pointer";
 
     var fpsDiv = document.createElement("div");
@@ -47,7 +53,8 @@ THREEx.Stats = function() {
 
     var fpsText = document.createElement("div");
     fpsText.id = "fpsText";
-    fpsText.style.cssText = "color:#0ff;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px";
+    fpsText.style.cssText =
+        "color:#0ff;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px";
     fpsText.innerHTML = "FPS";
     fpsDiv.appendChild(fpsText);
 
@@ -69,7 +76,8 @@ THREEx.Stats = function() {
 
     var msText = document.createElement("div");
     msText.id = "msText";
-    msText.style.cssText = "color:#0f0;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px";
+    msText.style.cssText =
+        "color:#0f0;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px";
     msText.innerHTML = "MS";
     msDiv.appendChild(msText);
 
@@ -82,19 +90,18 @@ THREEx.Stats = function() {
         var bar = document.createElement("span");
         bar.style.cssText = "width:1px;height:30px;float:left;background-color:#131";
         msGraph.appendChild(bar);
-    }
-    ;
+    };
 
     var setMode = function(value) {
         mode = value;
 
         switch (mode) {
-            case 0 :
+            case 0:
                 fpsDiv.style.display = "block";
                 msDiv.style.display = "none";
                 break;
 
-            case 1 :
+            case 1:
                 fpsDiv.style.display = "none";
                 msDiv.style.display = "block";
                 break;
@@ -107,15 +114,15 @@ THREEx.Stats = function() {
     };
 
     return {
-        REVISION : 11,
-        domElement : container,
-        setMode : setMode,
+        REVISION: 11,
+        domElement: container,
+        setMode: setMode,
 
-        begin : function() {
+        begin: function() {
             startTime = Date.now();
         },
 
-        end : function() {
+        end: function() {
             var time = Date.now();
 
             ms = time - startTime;
@@ -132,8 +139,7 @@ THREEx.Stats = function() {
                 fpsMin = Math.min(fpsMin, fps);
                 fpsMax = Math.max(fpsMax, fps);
 
-                fpsText.textContent = fps + " FPS (" + fpsMin + "-" + fpsMax
-                        + ")";
+                fpsText.textContent = fps + " FPS (" + fpsMin + "-" + fpsMax + ")";
                 updateGraph(fpsGraph, Math.min(30, 30 - (fps / 100) * 30));
 
                 prevTime = time;
@@ -144,7 +150,7 @@ THREEx.Stats = function() {
             return time;
         },
 
-        update : function() {
+        update: function() {
             startTime = this.end();
         }
     }

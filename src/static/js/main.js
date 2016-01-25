@@ -27,13 +27,13 @@ jQuery(document).ready(function() {
     var status = jQuery(".status");
     var info = jQuery(".info");
     info.click(function() {
-                var isVisible = status.is(":visible");
-                if (isVisible) {
-                    status.fadeOut(200);
-                } else {
-                    status.fadeIn(200);
-                }
-            });
+        var isVisible = status.is(":visible");
+        if (isVisible) {
+            status.fadeOut(200);
+        } else {
+            status.fadeIn(200);
+        }
+    });
 
     // retrieves the current revision for the three
     // library and convert it into an integer value for
@@ -43,29 +43,28 @@ jQuery(document).ready(function() {
     // creates the main structure that represents the state
     // of the current scene in an abstract fashion
     var state = {
-        delta : 0.0,
-        time : 0.0,
-        oldTime : 0.0,
-        scene : null,
-        camera : null,
-        renderer : null,
-        geometry : null,
-        material : null,
-        mesh : null,
-        mode : 0,
-        filename : "md2",
-        dropSprite : null,
-        stats : null,
-        mouseX : 0,
-        mouseY : 0
+        delta: 0.0,
+        time: 0.0,
+        oldTime: 0.0,
+        scene: null,
+        camera: null,
+        renderer: null,
+        geometry: null,
+        material: null,
+        mesh: null,
+        mode: 0,
+        filename: "md2",
+        dropSprite: null,
+        stats: null,
+        mouseX: 0,
+        mouseY: 0
     };
 
     var build = function() {
         // creates the scene object used to store the global
         // information on the scene to be rendered
         state.scene = new THREE.Scene();
-        state.camera = new THREE.PerspectiveCamera(60,
-                (window.innerWidth / window.innerHeight), 0.1, 1000);
+        state.camera = new THREE.PerspectiveCamera(60, (window.innerWidth / window.innerHeight), 0.1, 1000);
         state.scene.add(state.camera);
 
         // creates the webgl renderer object and starts it with
@@ -90,13 +89,12 @@ jQuery(document).ready(function() {
         // creates the drop sprite value and add it to the current scene
         // object (in order to be able to drop it)
         var dropMaterial = REVISION >= 54 ? new THREE.SpriteMaterial({
-                    map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
-                    useScreenCoordinates : false
-                })
-                : {
-                    map : THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
-                    useScreenCoordinates : false
-                };
+            map: THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
+            useScreenCoordinates: false
+        }) : {
+            map: THREE.ImageUtils.loadTexture("static/images/drop_gfx.png"),
+            useScreenCoordinates: false
+        };
         state.dropSprite = new THREE.Sprite(dropMaterial);
         state.dropSprite.scale.set(1.0, 1.0, 0.0);
         state.scene.add(state.dropSprite);
@@ -225,8 +223,8 @@ jQuery(document).ready(function() {
                 statusString += "<br><b>Vertices:</b> " + model.info.vertices;
                 statusString += "<br><b>Frames:</b> " + model.info.frames;
             } else {
-                statusString = "<b>Status:</b> <font color=\"#cc0000\">"
-                        + model.info.status + "</font><hr/>";
+                statusString = "<b>Status:</b> <font color=\"#cc0000\">" + model.info.status +
+                    "</font><hr/>";
             }
             document.getElementById("status").innerHTML = statusString;
             document.getElementById("status").style.display = "block";
@@ -267,9 +265,9 @@ jQuery(document).ready(function() {
             // creates a new material for the texture to be mapped in
             // the mesh, this will be loaded with the image later
             state.material = new THREE.MeshBasicMaterial({
-                        wireframe : true,
-                        morphTargets : !isChrome
-                    });
+                wireframe: true,
+                morphTargets: !isChrome
+            });
 
             // runs the computation of the various geometry values
             // so that it gets properly computed and ready to be used
@@ -330,8 +328,7 @@ jQuery(document).ready(function() {
             return;
         }
 
-        var isDefined = typeof mouseX !== "undefined"
-                && typeof mouseY !== "undefined";
+        var isDefined = typeof mouseX !== "undefined" && typeof mouseY !== "undefined";
         isDefined = isDefined && mouseX != null && mouseY != null;
         if (isDefined && state.mesh) {
             var deltaX = (event.pageX - mouseX) / 10;

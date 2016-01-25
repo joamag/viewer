@@ -47,7 +47,7 @@ THREEx.WindowResize = function(renderer, camera) {
     // allows the stopping of the window resizing
     window.addEventListener("resize", callback, false);
     return {
-        stop : function() {
+        stop: function() {
             window.removeEventListener("resize", callback);
         }
     };
