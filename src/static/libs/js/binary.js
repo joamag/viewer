@@ -92,8 +92,8 @@ BinaryReader.prototype = {
 
         this._pos += size;
 
-        return exponent == (bias << 1) + 1 ? significand ? NaN : signal ? -Infinity : +Infinity : (1 + signal *
-            -2) * (exponent || significand ? !exponent ? Math.pow(2, -bias + 1) * significand : Math.pow(2,
+        return exponent == (bias << 1) + 1 ? significand ? NaN : signal ? -Infinity : +Infinity : (1 + signal * -
+            2) * (exponent || significand ? !exponent ? Math.pow(2, -bias + 1) * significand : Math.pow(2,
             exponent - bias) * (1 + significand) : 0);
     },
 

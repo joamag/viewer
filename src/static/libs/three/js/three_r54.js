@@ -2344,8 +2344,8 @@ THREE.Box2.prototype = {
 
     containsPoint: function(point) {
 
-        if ((this.min.x <= point.x) && (point.x <= this.max.x) &&
-            (this.min.y <= point.y) && (point.y <= this.max.y)) {
+        if ((this.min.x <= point.x) && (point.x <= this.max.x) && (this.min.y <= point.y) && (point.y <= this.max
+                .y)) {
 
             return true;
 
@@ -2357,8 +2357,8 @@ THREE.Box2.prototype = {
 
     containsBox: function(box) {
 
-        if ((this.min.x <= box.min.x) && (box.max.x <= this.max.x) &&
-            (this.min.y <= box.min.y) && (box.max.y <= this.max.y)) {
+        if ((this.min.x <= box.min.x) && (box.max.x <= this.max.x) && (this.min.y <= box.min.y) && (box.max.y <=
+                this.max.y)) {
 
             return true;
 
@@ -2384,10 +2384,8 @@ THREE.Box2.prototype = {
 
         // using 6 splitting planes to rule out intersections.
 
-        if ((box.max.x < this.min.x) ||
-            (box.min.x > this.max.x) ||
-            (box.max.y < this.min.y) ||
-            (box.min.y > this.max.y)) {
+        if ((box.max.x < this.min.x) || (box.min.x > this.max.x) || (box.max.y < this.min.y) || (box.min.y >
+                this.max.y)) {
 
             return false;
 
@@ -2612,9 +2610,8 @@ THREE.Box3.prototype = {
 
     containsPoint: function(point) {
 
-        if ((this.min.x <= point.x) && (point.x <= this.max.x) &&
-            (this.min.y <= point.y) && (point.y <= this.max.y) &&
-            (this.min.z <= point.z) && (point.z <= this.max.z)) {
+        if ((this.min.x <= point.x) && (point.x <= this.max.x) && (this.min.y <= point.y) && (point.y <= this.max
+                .y) && (this.min.z <= point.z) && (point.z <= this.max.z)) {
 
             return true;
 
@@ -2626,9 +2623,8 @@ THREE.Box3.prototype = {
 
     containsBox: function(box) {
 
-        if ((this.min.x <= box.min.x) && (box.max.x <= this.max.x) &&
-            (this.min.y <= box.min.y) && (box.max.y <= this.max.y) &&
-            (this.min.z <= box.min.z) && (box.max.z <= this.max.z)) {
+        if ((this.min.x <= box.min.x) && (box.max.x <= this.max.x) && (this.min.y <= box.min.y) && (box.max.y <=
+                this.max.y) && (this.min.z <= box.min.z) && (box.max.z <= this.max.z)) {
 
             return true;
 
@@ -2654,9 +2650,8 @@ THREE.Box3.prototype = {
 
         // using 6 splitting planes to rule out intersections.
 
-        if ((box.max.x < this.min.x) || (box.min.x > this.max.x) ||
-            (box.max.y < this.min.y) || (box.min.y > this.max.y) ||
-            (box.max.z < this.min.z) || (box.min.z > this.max.z)) {
+        if ((box.max.x < this.min.x) || (box.min.x > this.max.x) || (box.max.y < this.min.y) || (box.min.y >
+                this.max.y) || (box.max.z < this.min.z) || (box.min.z > this.max.z)) {
 
             return false;
 
@@ -3436,35 +3431,17 @@ THREE.Matrix4.prototype = {
         //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
 
         return (
-            n14 * n23 * n32 * n41 -
-            n13 * n24 * n32 * n41 -
-            n14 * n22 * n33 * n41 +
-            n12 * n24 * n33 * n41 +
+            n14 * n23 * n32 * n41 - n13 * n24 * n32 * n41 - n14 * n22 * n33 * n41 + n12 * n24 * n33 * n41 +
 
-            n13 * n22 * n34 * n41 -
-            n12 * n23 * n34 * n41 -
-            n14 * n23 * n31 * n42 +
-            n13 * n24 * n31 * n42 +
+            n13 * n22 * n34 * n41 - n12 * n23 * n34 * n41 - n14 * n23 * n31 * n42 + n13 * n24 * n31 * n42 +
 
-            n14 * n21 * n33 * n42 -
-            n11 * n24 * n33 * n42 -
-            n13 * n21 * n34 * n42 +
-            n11 * n23 * n34 * n42 +
+            n14 * n21 * n33 * n42 - n11 * n24 * n33 * n42 - n13 * n21 * n34 * n42 + n11 * n23 * n34 * n42 +
 
-            n14 * n22 * n31 * n43 -
-            n12 * n24 * n31 * n43 -
-            n14 * n21 * n32 * n43 +
-            n11 * n24 * n32 * n43 +
+            n14 * n22 * n31 * n43 - n12 * n24 * n31 * n43 - n14 * n21 * n32 * n43 + n11 * n24 * n32 * n43 +
 
-            n12 * n21 * n34 * n43 -
-            n11 * n22 * n34 * n43 -
-            n13 * n22 * n31 * n44 +
-            n12 * n23 * n31 * n44 +
+            n12 * n21 * n34 * n43 - n11 * n22 * n34 * n43 - n13 * n22 * n31 * n44 + n12 * n23 * n31 * n44 +
 
-            n13 * n21 * n32 * n44 -
-            n11 * n23 * n32 * n44 -
-            n12 * n21 * n33 * n44 +
-            n11 * n22 * n33 * n44
+            n13 * n21 * n32 * n44 - n11 * n23 * n32 * n44 - n12 * n21 * n33 * n44 + n11 * n22 * n33 * n44
         );
 
     },
@@ -5841,8 +5818,8 @@ THREE.EventDispatcher = function() {
                     c = vertices[face.c];
                     d = vertices[face.d];
 
-                    if ((!THREE.Triangle.containsPoint(intersectPoint, a, b, d)) &&
-                        (!THREE.Triangle.containsPoint(intersectPoint, b, c, d))) continue;
+                    if ((!THREE.Triangle.containsPoint(intersectPoint, a, b, d)) && (!THREE.Triangle.containsPoint(
+                            intersectPoint, b, c, d))) continue;
 
                 } else {
 
@@ -6564,9 +6541,9 @@ THREE.Projector = function() {
                         if (v1.visible === true && v2.visible === true && v3.visible === true) {
 
                             visible = ((v3.positionScreen.x - v1.positionScreen.x) * (v2.positionScreen.y - v1.positionScreen
-                                    .y) -
-                                (v3.positionScreen.y - v1.positionScreen.y) * (v2.positionScreen.x - v1.positionScreen
-                                    .x)) < 0;
+                                .y) - (v3.positionScreen.y - v1.positionScreen.y) * (v2.positionScreen.x -
+                                v1.positionScreen
+                                .x)) < 0;
 
                             if (side === THREE.DoubleSide || visible === (side === THREE.FrontSide)) {
 
@@ -6599,13 +6576,13 @@ THREE.Projector = function() {
                             true) {
 
                             visible = (v4.positionScreen.x - v1.positionScreen.x) * (v2.positionScreen.y - v1.positionScreen
-                                    .y) -
-                                (v4.positionScreen.y - v1.positionScreen.y) * (v2.positionScreen.x - v1.positionScreen
-                                    .x) < 0 ||
-                                (v2.positionScreen.x - v3.positionScreen.x) * (v4.positionScreen.y - v3.positionScreen
-                                    .y) -
-                                (v2.positionScreen.y - v3.positionScreen.y) * (v4.positionScreen.x - v3.positionScreen
-                                    .x) < 0;
+                                .y) - (v4.positionScreen.y - v1.positionScreen.y) * (v2.positionScreen.x -
+                                v1.positionScreen
+                                .x) < 0 || (v2.positionScreen.x - v3.positionScreen.x) * (v4.positionScreen
+                                .y - v3.positionScreen
+                                .y) - (v2.positionScreen.y - v3.positionScreen.y) * (v4.positionScreen.x -
+                                v3.positionScreen
+                                .x) < 0;
 
 
                             if (side === THREE.DoubleSide || visible === (side === THREE.FrontSide)) {
@@ -8175,10 +8152,8 @@ THREE.BufferGeometry.prototype = {
         // based on http://www.terathon.com/code/tangent.html
         // (per vertex tangents)
 
-        if (this.attributes["index"] === undefined ||
-            this.attributes["position"] === undefined ||
-            this.attributes["normal"] === undefined ||
-            this.attributes["uv"] === undefined) {
+        if (this.attributes["index"] === undefined || this.attributes["position"] === undefined || this.attributes[
+                "normal"] === undefined || this.attributes["uv"] === undefined) {
 
             console.warn(
                 "Missing required attributes (index, position, normal or uv) in BufferGeometry.computeTangents()"
@@ -17056,12 +17031,9 @@ THREE.UniformsUtils = {
 
                 parameter_src = uniforms_src[u][p];
 
-                if (parameter_src instanceof THREE.Color ||
-                    parameter_src instanceof THREE.Vector2 ||
-                    parameter_src instanceof THREE.Vector3 ||
-                    parameter_src instanceof THREE.Vector4 ||
-                    parameter_src instanceof THREE.Matrix4 ||
-                    parameter_src instanceof THREE.Texture) {
+                if (parameter_src instanceof THREE.Color || parameter_src instanceof THREE.Vector2 ||
+                    parameter_src instanceof THREE.Vector3 || parameter_src instanceof THREE.Vector4 ||
+                    parameter_src instanceof THREE.Matrix4 || parameter_src instanceof THREE.Texture) {
 
                     uniforms_dst[u][p] = parameter_src.clone();
 
@@ -19307,9 +19279,8 @@ THREE.WebGLRenderer = function(parameters) {
 
                     customAttribute = customAttributes[i];
 
-                    if (customAttribute.needsUpdate &&
-                        (customAttribute.boundTo === undefined ||
-                            customAttribute.boundTo === "vertices")) {
+                    if (customAttribute.needsUpdate && (customAttribute.boundTo === undefined || customAttribute.boundTo ===
+                            "vertices")) {
 
                         cal = customAttribute.value.length;
 
@@ -19510,9 +19481,8 @@ THREE.WebGLRenderer = function(parameters) {
 
                 customAttribute = customAttributes[i];
 
-                if (customAttribute.needsUpdate &&
-                    (customAttribute.boundTo === undefined ||
-                        customAttribute.boundTo === "vertices")) {
+                if (customAttribute.needsUpdate && (customAttribute.boundTo === undefined || customAttribute.boundTo ===
+                        "vertices")) {
 
                     offset = 0;
 
@@ -19686,9 +19656,8 @@ THREE.WebGLRenderer = function(parameters) {
 
                 customAttribute = customAttributes[i];
 
-                if (customAttribute.needsUpdate &&
-                    (customAttribute.boundTo === undefined ||
-                        customAttribute.boundTo === "vertices")) {
+                if (customAttribute.needsUpdate && (customAttribute.boundTo === undefined || customAttribute.boundTo ===
+                        "vertices")) {
 
                     offset = 0;
 
@@ -21743,8 +21712,7 @@ THREE.WebGLRenderer = function(parameters) {
 
             }
 
-            if (material.skinning &&
-                attributes.skinIndex >= 0 && attributes.skinWeight >= 0) {
+            if (material.skinning && attributes.skinIndex >= 0 && attributes.skinWeight >= 0) {
 
                 _gl.bindBuffer(_gl.ARRAY_BUFFER, geometryGroup.__webglSkinIndicesBuffer);
                 enableAttribute(attributes.skinIndex);
@@ -22713,9 +22681,7 @@ THREE.WebGLRenderer = function(parameters) {
 
                 }
 
-            } else if (object instanceof THREE.Ribbon ||
-                object instanceof THREE.Line ||
-                object instanceof THREE.ParticleSystem) {
+            } else if (object instanceof THREE.Ribbon || object instanceof THREE.Line || object instanceof THREE.ParticleSystem) {
 
                 geometry = object.geometry;
                 addBuffer(scene.__webglObjects, geometry, object);
@@ -22772,9 +22738,8 @@ THREE.WebGLRenderer = function(parameters) {
 
             if (geometry instanceof THREE.BufferGeometry) {
 
-                if (geometry.verticesNeedUpdate || geometry.elementsNeedUpdate ||
-                    geometry.uvsNeedUpdate || geometry.normalsNeedUpdate ||
-                    geometry.colorsNeedUpdate || geometry.tangentsNeedUpdate) {
+                if (geometry.verticesNeedUpdate || geometry.elementsNeedUpdate || geometry.uvsNeedUpdate ||
+                    geometry.normalsNeedUpdate || geometry.colorsNeedUpdate || geometry.tangentsNeedUpdate) {
 
                     setDirectBuffers(geometry, _gl.DYNAMIC_DRAW, !geometry.dynamic);
 
@@ -22806,8 +22771,8 @@ THREE.WebGLRenderer = function(parameters) {
                     customAttributesDirty = material.attributes && areCustomAttributesDirty(material);
 
                     if (geometry.verticesNeedUpdate || geometry.morphTargetsNeedUpdate || geometry.elementsNeedUpdate ||
-                        geometry.uvsNeedUpdate || geometry.normalsNeedUpdate ||
-                        geometry.colorsNeedUpdate || geometry.tangentsNeedUpdate || customAttributesDirty) {
+                        geometry.uvsNeedUpdate || geometry.normalsNeedUpdate || geometry.colorsNeedUpdate ||
+                        geometry.tangentsNeedUpdate || customAttributesDirty) {
 
                         setMeshBuffers(geometryGroup, object, _gl.DYNAMIC_DRAW, !geometry.dynamic, material);
 
@@ -22932,9 +22897,7 @@ THREE.WebGLRenderer = function(parameters) {
 
     function removeObject(object, scene) {
 
-        if (object instanceof THREE.Mesh ||
-            object instanceof THREE.ParticleSystem ||
-            object instanceof THREE.Ribbon ||
+        if (object instanceof THREE.Mesh || object instanceof THREE.ParticleSystem || object instanceof THREE.Ribbon ||
             object instanceof THREE.Line) {
 
             removeInstances(scene.__webglObjects, object);
@@ -23245,8 +23208,7 @@ THREE.WebGLRenderer = function(parameters) {
 
             }
 
-            if (material instanceof THREE.MeshPhongMaterial ||
-                material instanceof THREE.MeshLambertMaterial ||
+            if (material instanceof THREE.MeshPhongMaterial || material instanceof THREE.MeshLambertMaterial ||
                 material.lights) {
 
                 if (_lightsNeedUpdate) {
@@ -23260,8 +23222,7 @@ THREE.WebGLRenderer = function(parameters) {
 
             }
 
-            if (material instanceof THREE.MeshBasicMaterial ||
-                material instanceof THREE.MeshLambertMaterial ||
+            if (material instanceof THREE.MeshBasicMaterial || material instanceof THREE.MeshLambertMaterial ||
                 material instanceof THREE.MeshPhongMaterial) {
 
                 refreshUniformsCommon(m_uniforms, material);
@@ -23316,9 +23277,8 @@ THREE.WebGLRenderer = function(parameters) {
             // load material specific uniforms
             // (shader material also gets them for the sake of genericity)
 
-            if (material instanceof THREE.ShaderMaterial ||
-                material instanceof THREE.MeshPhongMaterial ||
-                material.envMap) {
+            if (material instanceof THREE.ShaderMaterial || material instanceof THREE.MeshPhongMaterial || material
+                .envMap) {
 
                 if (p_uniforms.cameraPosition !== null) {
 
@@ -23329,10 +23289,8 @@ THREE.WebGLRenderer = function(parameters) {
 
             }
 
-            if (material instanceof THREE.MeshPhongMaterial ||
-                material instanceof THREE.MeshLambertMaterial ||
-                material instanceof THREE.ShaderMaterial ||
-                material.skinning) {
+            if (material instanceof THREE.MeshPhongMaterial || material instanceof THREE.MeshLambertMaterial ||
+                material instanceof THREE.ShaderMaterial || material.skinning) {
 
                 if (p_uniforms.viewMatrix !== null) {
 
@@ -25413,14 +25371,12 @@ THREE.WebGLRenderer = function(parameters) {
         _glExtensionTextureFloat = _gl.getExtension('OES_texture_float');
         _glExtensionStandardDerivatives = _gl.getExtension('OES_standard_derivatives');
 
-        _glExtensionTextureFilterAnisotropic = _gl.getExtension('EXT_texture_filter_anisotropic') ||
-            _gl.getExtension('MOZ_EXT_texture_filter_anisotropic') ||
-            _gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
+        _glExtensionTextureFilterAnisotropic = _gl.getExtension('EXT_texture_filter_anisotropic') || _gl.getExtension(
+            'MOZ_EXT_texture_filter_anisotropic') || _gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
 
 
-        _glExtensionCompressedTextureS3TC = _gl.getExtension('WEBGL_compressed_texture_s3tc') ||
-            _gl.getExtension('MOZ_WEBGL_compressed_texture_s3tc') ||
-            _gl.getExtension('WEBKIT_WEBGL_compressed_texture_s3tc');
+        _glExtensionCompressedTextureS3TC = _gl.getExtension('WEBGL_compressed_texture_s3tc') || _gl.getExtension(
+            'MOZ_WEBGL_compressed_texture_s3tc') || _gl.getExtension('WEBKIT_WEBGL_compressed_texture_s3tc');
 
         if (!_glExtensionTextureFloat) {
 
@@ -27055,10 +27011,8 @@ THREE.ImageUtils = {
 
         function fourCCToInt32(value) {
 
-            return value.charCodeAt(0) +
-                (value.charCodeAt(1) << 8) +
-                (value.charCodeAt(2) << 16) +
-                (value.charCodeAt(3) << 24);
+            return value.charCodeAt(0) + (value.charCodeAt(1) << 8) + (value.charCodeAt(2) << 16) + (value.charCodeAt(
+                3) << 24);
 
         }
 
@@ -29214,10 +29168,8 @@ THREE.Curve.Utils = {
 
     tangentCubicBezier: function(t, p0, p1, p2, p3) {
 
-        return -3 * p0 * (1 - t) * (1 - t) +
-            3 * p1 * (1 - t) * (1 - t) - 6 * t * p1 * (1 - t) +
-            6 * t * p2 * (1 - t) - 3 * t * t * p2 +
-            3 * t * t * p3;
+        return -3 * p0 * (1 - t) * (1 - t) + 3 * p1 * (1 - t) * (1 - t) - 6 * t * p1 * (1 - t) + 6 * t * p2 * (
+            1 - t) - 3 * t * t * p2 + 3 * t * t * p3;
     },
 
 
@@ -30304,8 +30256,7 @@ THREE.Path.prototype.getPoints = function(divisions, closedPath) {
     // Normalize to remove the closing point by default.
     var lastPoint = points[points.length - 1];
     var EPSILON = 0.0000000001;
-    if (Math.abs(lastPoint.x - points[0].x) < EPSILON &&
-        Math.abs(lastPoint.y - points[0].y) < EPSILON)
+    if (Math.abs(lastPoint.x - points[0].x) < EPSILON && Math.abs(lastPoint.y - points[0].y) < EPSILON)
         points.splice(points.length - 1, 1);
     if (closedPath) {
 
@@ -31119,8 +31070,8 @@ THREE.AnimationHandler = (function() {
 
                 // create quaternions
 
-                if (data.hierarchy[h].keys[k].rot !== undefined &&
-                    !(data.hierarchy[h].keys[k].rot instanceof THREE.Quaternion)) {
+                if (data.hierarchy[h].keys[k].rot !== undefined && !(data.hierarchy[h].keys[k].rot instanceof THREE
+                        .Quaternion)) {
 
                     var quat = data.hierarchy[h].keys[k].rot;
                     data.hierarchy[h].keys[k].rot = new THREE.Quaternion(quat[0], quat[1], quat[2], quat[3]);
@@ -31475,8 +31426,8 @@ THREE.Animation.prototype.update = function(deltaTimeMS) {
                     vector.y = prevXYZ[1] + (nextXYZ[1] - prevXYZ[1]) * scale;
                     vector.z = prevXYZ[2] + (nextXYZ[2] - prevXYZ[2]) * scale;
 
-                } else if (this.interpolationType === THREE.AnimationHandler.CATMULLROM ||
-                    this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD) {
+                } else if (this.interpolationType === THREE.AnimationHandler.CATMULLROM || this.interpolationType ===
+                    THREE.AnimationHandler.CATMULLROM_FORWARD) {
 
                     this.points[0] = this.getPrevKeyWith("pos", h, prevKey.index - 1)["pos"];
                     this.points[1] = prevXYZ;
@@ -31578,8 +31529,8 @@ THREE.Animation.prototype.getNextKeyWith = function(type, h, key) {
 
     var keys = this.data.hierarchy[h].keys;
 
-    if (this.interpolationType === THREE.AnimationHandler.CATMULLROM ||
-        this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD) {
+    if (this.interpolationType === THREE.AnimationHandler.CATMULLROM || this.interpolationType === THREE.AnimationHandler
+        .CATMULLROM_FORWARD) {
 
         key = key < keys.length - 1 ? key : keys.length - 1;
 
@@ -31609,8 +31560,8 @@ THREE.Animation.prototype.getPrevKeyWith = function(type, h, key) {
 
     var keys = this.data.hierarchy[h].keys;
 
-    if (this.interpolationType === THREE.AnimationHandler.CATMULLROM ||
-        this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD) {
+    if (this.interpolationType === THREE.AnimationHandler.CATMULLROM || this.interpolationType === THREE.AnimationHandler
+        .CATMULLROM_FORWARD) {
 
         key = key > 0 ? key : 0;
 
@@ -36412,10 +36363,8 @@ THREE.LensFlarePlugin = function() {
             // screen cull
 
             if (_lensFlare.hasVertexTexture || (
-                    screenPositionPixels.x > 0 &&
-                    screenPositionPixels.x < viewportWidth &&
-                    screenPositionPixels.y > 0 &&
-                    screenPositionPixels.y < viewportHeight)) {
+                    screenPositionPixels.x > 0 && screenPositionPixels.x < viewportWidth &&
+                    screenPositionPixels.y > 0 && screenPositionPixels.y < viewportHeight)) {
 
                 // save current RGB to temp texture
 
