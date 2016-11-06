@@ -63,38 +63,7 @@ BinaryReader.prototype = {
     },
 
     _decodeFloat: function(precisionBits, exponentBits) {
-
         return this._decodeFloat2(precisionBits, exponentBits);
-
-        var length = precisionBits + exponentBits + 1;
-        var size = length >> 3;
-        this._checkSize(length);
-
-        var bias = Math.pow(2, exponentBits - 1) - 1;
-        var signal = this._readBits(precisionBits + exponentBits, 1, size);
-        var exponent = this._readBits(precisionBits, exponentBits, size);
-        var significand = 0;
-        var divisor = 2;
-        var curByte = length + (-precisionBits >> 3) - 1;
-
-        do {
-            var byteValue = this._readByte(++curByte, size);
-            var startBit = precisionBits % 8 || 8;
-            var mask = 1 << startBit;
-
-            while (mask >>= 1) {
-                if (byteValue & mask) {
-                    significand += 1 / divisor;
-                }
-                divisor *= 2;
-            }
-        } while (precisionBits -= startBit);
-
-        this._pos += size;
-
-        return exponent == (bias << 1) + 1 ? significand ? NaN : signal ? -Infinity : +Infinity : (1 + signal * -
-            2) * (exponent || significand ? !exponent ? Math.pow(2, -bias + 1) * significand : Math.pow(2,
-            exponent - bias) * (1 + significand) : 0);
     },
 
     _decodeFloat2: function(precisionBits, exponentBits) {
