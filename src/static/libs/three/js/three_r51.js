@@ -10836,10 +10836,10 @@ THREE.MeshPhongMaterial.prototype.clone = function() {
  *
  * parameters = {
  *  opacity: <float>,
- 
+
  *  blending: THREE.NormalBlending,
  *  depthTest: <bool>,
- 
+
  *  wireframe: <boolean>,
  *  wireframeLinewidth: <float>
  * }
@@ -10875,11 +10875,11 @@ THREE.MeshDepthMaterial.prototype.clone = function() {
  *
  * parameters = {
  *  opacity: <float>,
- 
+
  *  shading: THREE.FlatShading,
  *  blending: THREE.NormalBlending,
  *  depthTest: <bool>,
- 
+
  *  wireframe: <boolean>,
  *  wireframeLinewidth: <float>
  * }
