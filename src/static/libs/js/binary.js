@@ -67,6 +67,8 @@ BinaryReader.prototype = {
     },
 
     _decodeFloat2: function(precisionBits, exponentBits) {
+        var i;
+        var test;
         var length = precisionBits + exponentBits + 1;
         var value = this._decodeInt(length);
 
@@ -76,8 +78,8 @@ BinaryReader.prototype = {
         var exponent = 0.0;
 
         // Mantissa
-        for (var i = 22; i > -1; i--) {
-            var test = 1.0 / Math.pow(2, 23 - i);
+        for (i = 22; i > -1; i--) {
+            test = 1.0 / Math.pow(2, 23 - i);
 
             if ((value >> i & 0x1) == 1) {
                 mantissa += test;
@@ -85,11 +87,11 @@ BinaryReader.prototype = {
             }
         }
 
-        if (allZero == 0)
+        if (allZero === 0)
             mantissa += 1.0;
 
-        for (var i = 30; i > 22; i--) {
-            var test = Math.pow(2, i - 23);
+        for (i = 30; i > 22; i--) {
+            test = Math.pow(2, i - 23);
 
             if ((value >> i & 0x1) == 1) {
                 exponent += test;
