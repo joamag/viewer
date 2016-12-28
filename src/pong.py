@@ -53,3 +53,5 @@ def index():
 
 if __name__ == "__main__":
     quorum.run(server = "waitress")
+else:
+    __path__ = []
