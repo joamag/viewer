@@ -37,7 +37,7 @@
                 it is intended.<br/>
                 For example. Chrome or Firefox.<br/>
             </p>
-            <p class="copyright">(C) Hive Solutions 2008-2016</p>
+            <p class="copyright">(C) Hive Solutions 2008-2017</p>
           </div>
     </body>
 </html>
