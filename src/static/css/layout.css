@@ -55,6 +55,11 @@ canvas {
 .status {
     background-color: #000000;
     border-radius: 12px 12px 12px 12px;
+    -o-border-radius: 12px 12px 12px 12px;
+    -ms-border-radius: 12px 12px 12px 12px;
+    -moz-border-radius: 12px 12px 12px 12px;
+    -khtml-border-radius: 12px 12px 12px 12px;
+    -webkit-border-radius: 12px 12px 12px 12px;
     color: #f4f4f4;
     display: none;
     left: 10px;
