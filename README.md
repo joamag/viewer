@@ -1,6 +1,6 @@
 # Pong three.js
 
-Simple pong game created with three.js.
+Simple pong game created with [three.js](https://threejs.org).
 
 ## Problems
 
