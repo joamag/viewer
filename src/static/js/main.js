@@ -203,7 +203,7 @@ jQuery(document).ready(function() {
             // in case the current loading mode is one then this is the
             // loading of a texture image and so the proper logic must
             // be run, returning the control flow immediately after
-            if (state.mode == 1) {
+            if (state.mode === 1) {
                 loadImage(event.target.result);
                 return;
             }
@@ -217,7 +217,7 @@ jQuery(document).ready(function() {
             // to the user about either the model information or the status
             // of the loading of the model (in case there was a problem)
             var statusString = "<b>Status: </b>" + model.info.status + "<hr/>";
-            if (model.info.status == "Success") {
+            if (model.info.status === "Success") {
                 statusString += "<b>Name:</b> " + model.model.metadata.filename;
                 statusString += "<br><b>Faces:</b> " + model.info.faces;
                 statusString += "<br><b>Vertices:</b> " + model.info.vertices;
@@ -299,7 +299,7 @@ jQuery(document).ready(function() {
         var extension = file.name.substr(file.name.length - 3).toLowerCase();
         var filename = file.name.substr(0, file.name.length - 4);
 
-        if ((extension == "jpg" || extension == "png") && state.mesh) {
+        if (["jpg", "png", "bpm"].indexOf(extension) !== -1 && state.mesh) {
             state.mode = 1;
             reader.readAsDataURL(file);
         } else {

@@ -72,7 +72,7 @@ function onDocumentDrop(event) {
 
     reader.onload = function(event) {
 
-        if (mode == 1) {
+        if (mode === 1) {
             loadImage(event.target.result);
             return;
         }
@@ -80,7 +80,7 @@ function onDocumentDrop(event) {
         md = MD2_converter(event.target.result, filename);
 
         var statusString = "<HR><B>Status:</B> " + md.info.status;
-        if (md.info.status == "Success") {
+        if (md.info.status === "Success") {
             statusString += "<BR><B>Faces:</B> " + md.info.faces;
             statusString += "<BR><B>Vertices:</B> " + md.info.vertices;
             statusString += "<BR><B>Frames:</B> " + md.info.frames;
@@ -95,7 +95,7 @@ function onDocumentDrop(event) {
 
         document.getElementById('info').style.display = "block";
 
-        if (md.info.status != "Success") {
+        if (md.info.status !== "Success") {
             return;
         }
 
@@ -131,7 +131,7 @@ function onDocumentDrop(event) {
     var end = file.name.substr(file.name.length - 3).toLowerCase();
     filename = file.name.substr(0, file.name.length - 4);
 
-    if ((end == "jpg" || end == "png") && mesh) {
+    if ((end === "jpg" || end === "png") && mesh) {
         mode = 1;
         reader.readAsDataURL(file);
     } else {
@@ -204,7 +204,7 @@ function render() {
     delta = time - oldTime;
     oldTime = time;
 
-    if (isNaN(delta) || delta > 1000 || delta == 0) {
+    if (isNaN(delta) || delta > 1000 || delta === 0) {
         delta = 1000 / 60;
     }
 
