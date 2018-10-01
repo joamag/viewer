@@ -70,7 +70,7 @@ THREEx.loadMd2 = function(file, filename, precision) {
 
     // validates that the identifier in the header is the correct
     // one and that the version is the compatible one
-    if (header.ident != "IDP2" || header.version != 8) {
+    if (header.ident !== "IDP2" || header.version !== 8) {
         info.status = "Not a valid MD2 file";
         return returnObject;
     }
@@ -96,7 +96,7 @@ THREEx.loadMd2 = function(file, filename, precision) {
     // in case the size of file (in bytes) is diferent
     // from the defined value in the header raise an error
     // as the file is considered corrupted
-    if (reader.getSize() != header.offset_end) {
+    if (reader.getSize() !== header.offset_end) {
         info.status = "Corrupted MD2 file";
         return returnObject;
     }

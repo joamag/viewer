@@ -81,7 +81,7 @@ BinaryReader.prototype = {
         for (i = 22; i > -1; i--) {
             test = 1.0 / Math.pow(2, 23 - i);
 
-            if ((value >> i & 0x1) == 1) {
+            if ((value >> i & 0x1) === 1) {
                 mantissa += test;
                 allZero = 0;
             }
@@ -93,7 +93,7 @@ BinaryReader.prototype = {
         for (i = 30; i > 22; i--) {
             test = Math.pow(2, i - 23);
 
-            if ((value >> i & 0x1) == 1) {
+            if ((value >> i & 0x1) === 1) {
                 exponent += test;
             }
         }
@@ -101,7 +101,7 @@ BinaryReader.prototype = {
         exponent -= 127.0;
 
         var total = Math.pow(2.0, exponent) * mantissa;
-        if (sign == 1) {
+        if (sign === 1) {
             total *= -1.0;
         }
 
@@ -119,7 +119,7 @@ BinaryReader.prototype = {
     },
 
     _shl: function(a, b) {
-        for (++b; --b; a = ((a %= 0x7fffffff + 1) & 0x40000000) == 0x40000000 ? a * 2 : (a - 0x40000000) * 2 +
+        for (++b; --b; a = ((a %= 0x7fffffff + 1) & 0x40000000) === 0x40000000 ? a * 2 : (a - 0x40000000) * 2 +
             0x7fffffff + 1)
         ;
         return a;

@@ -182,7 +182,7 @@ jQuery(document).ready(function() {
         // retrieves the current user agent value and tries to
         // verify if the current browser is chrome based
         var userAgent = navigator.userAgent.toLowerCase();
-        var isChrome = userAgent.indexOf("chrome") != -1;
+        var isChrome = userAgent.indexOf("chrome") !== -1;
 
         // sets the event as the original event, retrieved
         // from the event structure
@@ -232,7 +232,7 @@ jQuery(document).ready(function() {
 
             // in case the result of the loading of the model is not success
             // returns immedietly as there's been a loading problem
-            if (model.info.status != "Success") {
+            if (model.info.status !== "Success") {
                 return;
             }
 
@@ -324,12 +324,12 @@ jQuery(document).ready(function() {
     };
 
     var onDocumentMouseMove = function(event) {
-        if (event.which != 1) {
+        if (event.which !== 1) {
             return;
         }
 
         var isDefined = typeof mouseX !== "undefined" && typeof mouseY !== "undefined";
-        isDefined = isDefined && mouseX != null && mouseY != null;
+        isDefined = isDefined && mouseX !== null && mouseY !== null;
         if (isDefined && state.mesh) {
             var deltaX = (event.pageX - mouseX) / 10;
             var deltaY = (event.pageY - mouseY) / 10;
