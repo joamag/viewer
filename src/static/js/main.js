@@ -299,7 +299,7 @@ jQuery(document).ready(function() {
         var extension = file.name.substr(file.name.length - 3).toLowerCase();
         var filename = file.name.substr(0, file.name.length - 4);
 
-        if (["jpg", "png", "bpm"].indexOf(extension) !== -1 && state.mesh) {
+        if (["jpg", "png"].indexOf(extension) !== -1 && state.mesh) {
             state.mode = 1;
             reader.readAsDataURL(file);
         } else {
