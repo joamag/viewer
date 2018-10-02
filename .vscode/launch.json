@@ -6,7 +6,7 @@
         "request": "launch",
         "stopOnEntry": false,
         "pythonPath": "${config:python.pythonPath}",
-        "program": "${workspaceRoot}/src/pong.py",
+        "program": "${workspaceRoot}/src/viewer.py",
         "debugOptions": [
             "RedirectOutput"
         ],
