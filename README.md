@@ -1,6 +1,6 @@
-# Pong three.js
+# 3D Viewer three.js
 
-Simple pong game created with [three.js](https://threejs.org).
+Simple 3D model viewer created with [three.js](https://threejs.org).
 
 ## Problems
 

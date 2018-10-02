@@ -10,7 +10,7 @@
         <script src="{{ url_for('static', filename = 'js/stats.js') }}"></script>
         <script src="{{ url_for('static', filename = 'js/md2.js') }}"></script>
         <script src="{{ url_for('static', filename = 'js/main.js') }}"></script>
-        <title>Pong</title>
+        <title>3D Viewer</title>
     </head>
     <body>
         <div id="info" class="info"></div>
