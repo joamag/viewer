@@ -10,6 +10,8 @@
         <script src="{{ url_for('static', filename = 'js/stats.js') }}"></script>
         <script src="{{ url_for('static', filename = 'js/md2.js') }}"></script>
         <script src="{{ url_for('static', filename = 'js/obj.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/DDSLoader.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/MTLLoader.js') }}"></script>
         <script src="{{ url_for('static', filename = 'js/MorphAnimMesh.js') }}"></script>
         <script src="{{ url_for('static', filename = 'js/main.js') }}"></script>
         <title>3D Viewer</title>

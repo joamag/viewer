@@ -167,7 +167,7 @@ jQuery(document).ready(function() {
         // in case the mesh is defined must update its animation
         // and rotate it arround the y axis
         if (state.mesh) {
-            state.mesh.updateAnimation(state.delta);
+            state.mesh.updateAnimation &&state.mesh.updateAnimation(state.delta);
             state.mesh.rotation.y += 0.01;
         }
 
@@ -215,6 +215,53 @@ jQuery(document).ready(function() {
             // create a JSON based representation of the model
         //    var model = THREEx.loadMD2(event.target.result, filename);
 
+
+            new THREE.MTLLoader()
+            .setPath( 'static/models/crosby2/' )
+            .load( 'crosby.mtl', function ( materials ) {
+
+
+                materials.preload();
+
+                new THREE.OBJLoader()
+                    .setMaterials( materials )
+                    .setPath( 'static/models/crosby2/' )
+                    .load( 'crosby.obj', function ( object ) {
+                        var geometry = object.children[0].geometry;
+
+                        var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.7 );
+                        state.scene.add( ambientLight );
+
+                        var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
+                        state.camera.add( pointLight );
+
+                       
+                        // updates the camera position so that it positions itself
+                        // at some distance from the scene
+                        state.camera.position.z = 80;
+
+                        if (state.dropSprite) {
+                            state.scene.remove(state.dropSprite);
+                            delete state.dropSprite;
+                        }
+                        
+                        state.geometry = geometry;
+                        state.mesh = object;
+
+                        state.geometry.computeBoundingBox();
+                        state.mesh.position.z = 0;
+                        state.mesh.position.y -= geometry.boundingBox.max.y / 2.0;
+
+                        state.scene.add(state.mesh);
+
+                    }, function() {}, function() {} );
+
+            } );
+
+            return
+
+
+
             var loader = new THREE.OBJLoader();
             var model = loader.parse(event.target.result);
 
@@ -222,7 +269,11 @@ jQuery(document).ready(function() {
             // as the target geometry
             geometry = model.children[0];
 
-            debugger;
+
+            
+            // adds the "just" created mesh to current scene so that
+            // it appears in the complete composition
+            state.scene.add(state.mesh);
 
 /*
             // creates the html code that is going to provide information
@@ -286,7 +337,7 @@ jQuery(document).ready(function() {
             // in the mesh that is going to be created
             state.geometry.computeVertexNormals();
             state.geometry.computeFaceNormals();
-            //state.geometry.computeMorphNormals();  //@todo check the errrors
+            //state.geometry.computeMorphNormals();  //@todo check the errrors, looks deprecated
 
             // creates a new mesh with the computed mesh and then
             // defines both the scale and the duration of it
