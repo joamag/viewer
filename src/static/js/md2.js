@@ -41,7 +41,7 @@ var THREEx = THREEx || {};
  * @return {String} The string representation of the json model file resulting
  *         from the conversion of the md2 model.
  */
-THREEx.loadMd2 = function(file, filename, precision) {
+THREEx.loadMD2 = function(file, filename, precision) {
     // default the decimal precision value to the default
     // one in case no parameter is provided
     precision = precision || 1;

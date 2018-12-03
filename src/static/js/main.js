@@ -208,10 +208,10 @@ jQuery(document).ready(function() {
                 return;
             }
 
-            // loads the md2 model file from the provided string that
+            // loads the MD2 model file from the provided string that
             // should contain the contents of its source file, this should
             // create a json based representation of the model
-            var model = THREEx.loadMd2(event.target.result, filename);
+            var model = THREEx.loadMD2(event.target.result, filename);
 
             // creates the html code that is going to provide information
             // to the user about either the model information or the status
