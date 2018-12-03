@@ -12,7 +12,6 @@ THREE.OBJLoader = (function () {
     var material_use_pattern = /^usemtl /;
 
     function ParserState() {
-
         var state = {
             objects: [],
             object: {},
@@ -25,23 +24,18 @@ THREE.OBJLoader = (function () {
             materialLibraries: [],
 
             startObject: function (name, fromDeclaration) {
-
                 // If the current object (initial from reset) is not from a g/o declaration in the parsed
                 // file. We need to use it for the first parsed g/o to keep things in sync.
                 if (this.object && this.object.fromDeclaration === false) {
-
                     this.object.name = name;
                     this.object.fromDeclaration = (fromDeclaration !== false);
                     return;
-
                 }
 
                 var previousMaterial = (this.object && typeof this.object.currentMaterial === 'function' ? this.object.currentMaterial() : undefined);
 
                 if (this.object && typeof this.object._finalize === 'function') {
-
                     this.object._finalize(true);
-
                 }
 
                 this.object = {
@@ -58,9 +52,7 @@ THREE.OBJLoader = (function () {
                     smooth: true,
 
                     startMaterial: function (name, libraries) {
-
                         var previous = this._finalize(false);
-
                         // New usemtl declaration overwrites an inherited material, except if faces were declared
                         // after the material, then it must be preserved for proper MultiMaterial continuation.
                         if (previous && (previous.inherited || previous.groupCount <= 0)) {
@@ -487,7 +479,6 @@ THREE.OBJLoader = (function () {
                     }
 
                 } else if (lineFirstChar === 'f') {
-
                     var lineData = line.substr(1).trim();
                     var vertexData = lineData.split(/\s+/);
                     var faceVertices = [];
@@ -523,9 +514,7 @@ THREE.OBJLoader = (function () {
                         );
 
                     }
-
                 } else if (lineFirstChar === 'l') {
-
                     var lineParts = line.substring(1).trim().split(" ");
                     var lineVertices = [], lineUVs = [];
 
@@ -546,16 +535,12 @@ THREE.OBJLoader = (function () {
 
                     }
                     state.addLineGeometry(lineVertices, lineUVs);
-
                 } else if (lineFirstChar === 'p') {
-
                     var lineData = line.substr(1).trim();
                     var pointData = lineData.split(" ");
 
                     state.addPointGeometry(pointData);
-
                 } else if ((result = object_pattern.exec(line)) !== null) {
-
                     // o object_name
                     // or
                     // g group_name
@@ -563,23 +548,14 @@ THREE.OBJLoader = (function () {
                     // WORKAROUND: https://bugs.chromium.org/p/v8/issues/detail?id=2869
                     // var name = result[ 0 ].substr( 1 ).trim();
                     var name = (" " + result[0].substr(1).trim()).substr(1);
-
                     state.startObject(name);
-
                 } else if (material_use_pattern.test(line)) {
-
                     // material
-
                     state.object.startMaterial(line.substring(7).trim(), state.materialLibraries);
-
                 } else if (material_library_pattern.test(line)) {
-
                     // mtl file
-
                     state.materialLibraries.push(line.substring(7).trim());
-
                 } else if (lineFirstChar === 's') {
-
                     result = line.split(' ');
 
                     // smooth shading
@@ -649,26 +625,18 @@ THREE.OBJLoader = (function () {
                 buffergeometry.addAttribute('position', new THREE.Float32BufferAttribute(geometry.vertices, 3));
 
                 if (geometry.normals.length > 0) {
-
                     buffergeometry.addAttribute('normal', new THREE.Float32BufferAttribute(geometry.normals, 3));
-
                 } else {
-
                     buffergeometry.computeVertexNormals();
-
                 }
 
                 if (geometry.colors.length > 0) {
-
                     hasVertexColors = true;
                     buffergeometry.addAttribute('color', new THREE.Float32BufferAttribute(geometry.colors, 3));
-
                 }
 
                 if (geometry.uvs.length > 0) {
-
                     buffergeometry.addAttribute('uv', new THREE.Float32BufferAttribute(geometry.uvs, 2));
-
                 }
 
                 // Create materials
@@ -676,59 +644,45 @@ THREE.OBJLoader = (function () {
                 var createdMaterials = [];
 
                 for (var mi = 0, miLen = materials.length; mi < miLen; mi++) {
-
                     var sourceMaterial = materials[mi];
                     var material = undefined;
 
                     if (this.materials !== null) {
-
                         material = this.materials.create(sourceMaterial.name);
 
                         // mtl etc. loaders probably can't create line materials correctly, copy properties to a line material.
                         if (isLine && material && !(material instanceof THREE.LineBasicMaterial)) {
-
                             var materialLine = new THREE.LineBasicMaterial();
                             THREE.Material.prototype.copy.call(materialLine, material);
                             materialLine.color.copy(material.color);
                             materialLine.lights = false;
                             material = materialLine;
-
                         } else if (isPoints && material && !(material instanceof THREE.PointsMaterial)) {
-
                             var materialPoints = new THREE.PointsMaterial({ size: 10, sizeAttenuation: false });
                             THREE.Material.prototype.copy.call(materialPoints, material);
                             materialPoints.color.copy(material.color);
                             materialPoints.map = material.map;
                             materialPoints.lights = false;
                             material = materialPoints;
-
                         }
-
                     }
 
                     if (!material) {
-
                         if (isLine) {
                             material = new THREE.LineBasicMaterial();
                         } else if (isPoints) {
-
                             material = new THREE.PointsMaterial({ size: 1, sizeAttenuation: false });
-
                         } else {
-
                             material = new THREE.MeshPhongMaterial();
-
                         }
 
                         material.name = sourceMaterial.name;
-
                     }
 
                     material.flatShading = sourceMaterial.smooth ? false : true;
                     material.vertexColors = hasVertexColors ? THREE.VertexColors : THREE.NoColors;
 
                     createdMaterials.push(material);
-
                 }
 
                 // Create mesh
@@ -737,10 +691,8 @@ THREE.OBJLoader = (function () {
 
                 if (createdMaterials.length > 1) {
                     for (var mi = 0, miLen = materials.length; mi < miLen; mi++) {
-
                         var sourceMaterial = materials[mi];
                         buffergeometry.addGroup(sourceMaterial.groupStart, sourceMaterial.groupCount, mi);
-
                     }
 
                     if (isLine) {
@@ -751,7 +703,6 @@ THREE.OBJLoader = (function () {
                     } else {
                         mesh = new THREE.Mesh(buffergeometry, createdMaterials);
                     }
-
                 } else {
                     if (isLine) {
                         mesh = new THREE.LineSegments(buffergeometry, createdMaterials[0]);
@@ -774,5 +725,4 @@ THREE.OBJLoader = (function () {
     };
 
     return OBJLoader;
-
 })();
