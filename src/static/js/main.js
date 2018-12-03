@@ -127,6 +127,8 @@ jQuery(document).ready(function() {
     var loadImage = function(src) {
         var image = document.createElement("img");
 
+        // loads the texture file into the material that
+        // is now associated with the mesh
         state.material.map = new THREE.Texture(image);
         state.material.map.flipY = false;
         state.material.wireframe = false;
@@ -210,9 +212,19 @@ jQuery(document).ready(function() {
 
             // loads the MD2 model file from the provided string that
             // should contain the contents of its source file, this should
-            // create a json based representation of the model
-            var model = THREEx.loadMD2(event.target.result, filename);
+            // create a JSON based representation of the model
+        //    var model = THREEx.loadMD2(event.target.result, filename);
 
+            var loader = new THREE.OBJLoader();
+            var model = loader.parse(event.target.result);
+
+            // retrieves the first children of the model
+            // as the target geometry
+            geometry = model.children[0];
+
+            debugger;
+
+/*
             // creates the html code that is going to provide information
             // to the user about either the model information or the status
             // of the loading of the model (in case there was a problem)
@@ -236,12 +248,12 @@ jQuery(document).ready(function() {
                 return;
             }
 
-            // creates a new json (model) loader and uses it to
+            // creates a new JSON (model) loader and uses it to
             // start the loading of the model that was created
             var loader = new THREE.JSONLoader();
             var modelL = JSON.parse(model.string);
             var geometry = loader.parse(modelL);
-
+*/
             // in case there's a mesh loaded must remove it from
             // the scene not to be displayed anymore
             state.mesh && state.scene.remove(state.mesh);
@@ -274,13 +286,13 @@ jQuery(document).ready(function() {
             // in the mesh that is going to be created
             state.geometry.computeVertexNormals();
             state.geometry.computeFaceNormals();
-            state.geometry.computeMorphNormals();
+            //state.geometry.computeMorphNormals();  //@todo check the errrors
 
             // creates a new mesh with the computed mesh and then
             // defines both the scale and the duration of it
             state.mesh = new THREE.MorphAnimMesh(state.geometry, state.material);
             state.mesh.scale.set(1.0, 1.0, 1.0);
-            state.mesh.duration = 1000 * (model.info.frames / 10);
+          //  state.mesh.duration = 1000 * (model.info.frames / 10); //@todo we dont have this ingo
 
             // calculates the bounding box for the geomtery
             // and then uses it's value to position the mesh
