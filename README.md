@@ -4,6 +4,10 @@ Simple 3D model viewer created with [three.js](https://threejs.org).
 
 You can test the solution [here](https://viewer.stage.hive.pt/).
 
+## Goal
+
+Provide a simple solution for [MD2](http://tfc.duke.free.fr/coding/md2-specs-en.html) file visualization using only web tools.
+
 ## Problems
 
 Currently there are some issues with activating the morphing animations with Chrome. This problem
