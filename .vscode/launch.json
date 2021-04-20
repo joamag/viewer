@@ -5,7 +5,7 @@
         "type": "python",
         "request": "launch",
         "stopOnEntry": false,
-        "pythonPath": "${config:python.pythonPath}",
+        "python": "${command:python.interpreterPath}",
         "program": "${workspaceRoot}/src/viewer.py",
         "debugOptions": [
             "RedirectOutput"
